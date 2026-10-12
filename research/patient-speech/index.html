@@ -1,0 +1,1955 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Developer documentation for controlled virtual-patient encounters">
+      
+      
+      
+      
+        <link rel="prev" href="../../adr/0001-formative-practice-score/">
+      
+      
+        <link rel="next" href="../pre-speech-gating/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Patient speech realism - Med Abhyaas practice copilot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#realistic-patient-speech-for-a-hindihinglish-voice-virtual-patient-research-notes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Med Abhyaas practice copilot" class="md-header__button md-logo" aria-label="Med Abhyaas practice copilot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Med Abhyaas practice copilot
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Patient speech realism
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Med Abhyaas practice copilot" class="md-nav__button md-logo" aria-label="Med Abhyaas practice copilot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Med Abhyaas practice copilot
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../encounter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encounter lifecycle
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case authoring schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../authoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Faculty authoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence records
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Formative review
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Record governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Practice progress and debrief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Faculty dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agreement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annotation and agreement
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oncology workflows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../listening-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Listening checklist
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency suite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evaluation conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Roadmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0001-formative-practice-score/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    0001 Formative practice score
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Research
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            Research
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Patient speech realism
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Patient speech realism
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-summary-implementation-relevant" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Summary (implementation-relevant)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-quantitative-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Quantitative parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-hindihinglish-and-indian-english-specifics" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Hindi/Hinglish and Indian-English specifics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-how-patients-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. How patients answer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-design-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Design recommendations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Evaluation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pre-speech-gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+        
+          
+          <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_22">
+            <span class="md-nav__icon md-icon"></span>
+            API reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Store and audit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/compiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case compiler
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disclosure policy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/interpreter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learner-action interpreter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/prosody/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prosody
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/speech_plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Speech plans
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/attendant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Attendants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/improviser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Improviser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examination and orders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency suite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence records
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/observers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/agreement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agreement statistics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encounter operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Practice progress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+        
+          
+          <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_23">
+            <span class="md-nav__icon md-icon"></span>
+            Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keeping docs current
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/issue-tracker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Issue tracker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Domain docs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-summary-implementation-relevant" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Summary (implementation-relevant)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-quantitative-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Quantitative parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-hindihinglish-and-indian-english-specifics" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Hindi/Hinglish and Indian-English specifics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-how-patients-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. How patients answer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-design-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Design recommendations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Evaluation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<blockquote>
+<p>Research notes compiled 2026-10-09 for ticket #26. Claims are tagged with their sources; <strong>[Inference]</strong> and <strong>[Unverified]</strong> mark unsourced reasoning.</p>
+</blockquote>
+<h1 id="realistic-patient-speech-for-a-hindihinglish-voice-virtual-patient-research-notes">Realistic patient speech for a Hindi/Hinglish voice virtual patient: research notes<a class="headerlink" href="#realistic-patient-speech-for-a-hindihinglish-voice-virtual-patient-research-notes" title="Permanent link">&para;</a></h1>
+<p>Scope: how real patients talk in consultations (timing, disfluency, prosody, disclosure), Indian specifics, and what Gemini Live, Google TTS and Sarvam bulbul:v3 actually let us control. Every claim carries a reference tag [Rn]. <strong>[Inference]</strong> marks my own reasoning or design advice that no source states. <strong>[Unverified]</strong> marks a widely cited number I could not check against the primary text.</p>
+<hr />
+<h2 id="1-summary-implementation-relevant">1. Summary (implementation-relevant)<a class="headerlink" href="#1-summary-implementation-relevant" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Gaps between turns are short, and a long gap carries meaning.</strong> In 10 languages the most common gap between speakers is 0 to 200 ms; the overall median is about +100 ms, and per-language medians run from 0 to +300 ms [R1]. A VP that always answers after 1 to 2 s will sound slow or evasive. One that always answers after ~0 ms will sound scripted.</li>
+<li><strong>A delay tells the listener something.</strong> Listeners judge willingness and agreement as weaker as the silence before a reply grows from 0 to 600 to 1200 ms [R2]. Dispreferred answers become clearly more common once the gap is 700 ms or more [R3]. Use long gaps on purpose: before denials, embarrassing disclosures and "I don't know", not at random.</li>
+<li><strong>Disfluency is normal and frequent.</strong> Spontaneous speech runs at about 6 to 10 disfluencies per 100 words, counting filled pauses, repetitions and cut-offs [R4]. Bortfeld et al. found rates rise with planning difficulty and differ by speaker role, and that fillers pattern differently from repeats and restarts [R5].</li>
+<li><strong>"uh" and "um" are different signals.</strong> In English, "uh" announces a short delay and "um" a longer one [R6]. A filler should come before a matching silence, not replace it.</li>
+<li><strong>Pauses cluster at clause boundaries.</strong> About two-thirds of hesitation pauses, and three-quarters of total pause time, fall between clauses [R7]. Pauses inside a phrase are rarer and come before hard lexical choices, such as a drug name, a date or a body part.</li>
+<li><strong>Patients' opening accounts are longer than a single answer.</strong> At a Swiss tertiary outpatient clinic the uninterrupted opening statement averaged 92 s (median 59 s), and 78% of patients finished within 2 min. Talking time rose with age: 77 s for ages 17 to 29, 108 s for ages 50 to 87 [R8]. Later answers in history-taking are mostly short, but patients often "answer more than the question" with narrative expansions [R9].</li>
+<li><strong>Indian consultations are doctor-directive, and patients hedge.</strong> In real Telugu outpatient recordings, 58 to 62% of turns were doctor-directive. Only about 32% of patient answers were confident without hedging; 59% of patient turns trailed on past the question. Doctors interrupted in 23% of turns. Patients used idioms ("head is splitting"), and only 13% of patient turns contained formal clinical terms. "Sir"-type address appeared in about 17% of turns [R10].</li>
+<li><strong>LLM-generated patients are measurably too fluent, too certain and too deferential.</strong> Synthetic Indian dialogues were confident in 74 to 79% of answers (vs ~32% in real ones), had almost no interruption, and overused gratitude and kinship terms [R10]. This matches the user feedback and gives us concrete targets to correct.</li>
+<li><strong>Hindi disfluency is studied but not normed.</strong> Hindi hesitations and repetitions have different predictors [R11]. Annotation schemes and synthetic-disfluency generators exist for six Indian languages [R12], and Hindi is included in DISCO [R13]. I found <strong>no published per-100-word filler rate for native Hindi conversation</strong>; use the English rates as a provisional prior.</li>
+<li><strong>Hindi "haan" is multifunctional, and pitch carries the function.</strong> Bali (2009) shows F0 cues separate the discourse functions of <em>hã</em>, such as agreement versus a backchannel [R14]. A flat, TTS-default "haan" can change meaning.</li>
+<li><strong>Pain, depression and anxiety change the voice in different directions.</strong> Experimental pain raises F0 and loudness, mainly on groan-like vowels [R15]. Depression goes with slower, quieter speech and longer or more frequent pauses [R16, R17]. Anxiety is associated with faster rate and higher pitch [R17].</li>
+<li><strong>The provider controls are uneven.</strong> Gemini-TTS (non-Live) has <code>[short pause]</code> (~250 ms), <code>[medium pause]</code> (~500 ms), <code>[long pause]</code> (~1000 ms+) and <code>[uhm]</code>/<code>[sigh]</code> tags plus a natural-language style prompt [R18]. Chirp 3 HD has <code>[pause short|long]</code> in a <code>markup</code> field, <code>speaking_rate</code> 0.25 to 2.0 and SSML in preview (sync only), and supports hi-IN [R19]. Sarvam bulbul:v3 has only <code>pace</code> (0.5 to 2.0) and <code>temperature</code> (0.01 to 1.0); pitch and loudness are not supported on v3 [R20]. Gemini Live native audio documents no rate, pitch or pause API. Its levers are the system instruction (tone, accent, language), voice choice and VAD settings [R21, R22].</li>
+<li><strong>Over-use is the main risk.</strong> Google warns against overusing long pauses and says unnaturally placed tags may be ignored [R18, R19]. Real disfluency is uneven: many turns are fluent, and a few are very disfluent [R5]. <strong>[Inference]</strong></li>
+</ol>
+<hr />
+<h2 id="2-quantitative-parameters">2. Quantitative parameters<a class="headerlink" href="#2-quantitative-parameters" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Source and context</th>
+<th>Caveat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Between-turn gap (speaker change)</td>
+<td>modes 0 to +200 ms per language; overall median ~+100 ms; language medians 0 to +300 ms</td>
+<td>Stivers et al. 2009, 10 languages, casual polar Q-A [R1]</td>
+<td>Not medical, no Indian language in the sample</td>
+</tr>
+<tr>
+<td>Gap that signals trouble or dispreference</td>
+<td>≥700 ms: dispreferred responses clearly more common</td>
+<td>Kendrick &amp; Torreira 2015, English phone calls [R3]</td>
+<td>Not medical</td>
+</tr>
+<tr>
+<td>Listener perception of delay</td>
+<td>0 / 600 / 1200 ms: each step lowers perceived willingness</td>
+<td>Roberts et al. 2006, simulated calls [R2]</td>
+<td>Experimental</td>
+</tr>
+<tr>
+<td>Disfluency rate, all types</td>
+<td>6 to 10 per 100 words</td>
+<td>cited in Li &amp; Tilsen 2015 [R4]</td>
+<td>English</td>
+</tr>
+<tr>
+<td>Disfluency rate, conversation</td>
+<td>~6 per 100 words overall; higher for harder topics and for the speaker in the "director" role; older speakers only slightly higher</td>
+<td>Bortfeld et al. 2001 [R5]</td>
+<td>English task dialogues; the exact 5.97/100 figure is <strong>[Unverified]</strong></td>
+</tr>
+<tr>
+<td>Where pauses fall</td>
+<td>~2/3 of hesitation pauses and ~3/4 of pause time at clause boundaries</td>
+<td>Hawkins 1971, child narratives [R7]</td>
+<td>Children, English</td>
+</tr>
+<tr>
+<td>Pause length by boundary (read speech)</td>
+<td>clause ~652 ms; sentence ~734 ms; phrase ~471 ms; comma ~511 ms</td>
+<td>BYU thesis on read English [R23]</td>
+<td>Read speech, so an upper-bound template only</td>
+</tr>
+<tr>
+<td>Minimum "real" pause</td>
+<td>~250 ms is the traditional cut-off; shorter silences are often articulatory</td>
+<td>Goldman-Eisler tradition; critique in [R24]</td>
+<td>Use 150 to 250 ms as the floor for perceptible pauses <strong>[Inference]</strong></td>
+</tr>
+<tr>
+<td>Patient opening monologue</td>
+<td>mean 92 s (SD 105), median 59 s, 78% under 2 min; rises with age</td>
+<td>Langewitz 2002, Swiss tertiary outpatients [R8]</td>
+<td>Doctors were told not to interrupt</td>
+</tr>
+<tr>
+<td>Doctor interruption of opening statement</td>
+<td>~23 s</td>
+<td>Marvel et al. 1999 [R25]</td>
+<td><strong>[Unverified]</strong></td>
+</tr>
+<tr>
+<td>Speech rate, conversation</td>
+<td>young adults ~183 words/min including pauses; declines with age</td>
+<td>Duchin &amp; Mysak 1987 via secondary summary [R26]</td>
+<td>English; secondary source</td>
+</tr>
+<tr>
+<td>Speech rate, older adults</td>
+<td>256 syll/min speaking rate (~4.3 syll/s); 359.5 syll/min articulation rate</td>
+<td>Turkish adults aged 65 to 84 [R27]</td>
+<td>Turkish</td>
+</tr>
+<tr>
+<td>Older vs young segment durations</td>
+<td>20 to 25% longer in older adults</td>
+<td>small acoustic study, via [R26]</td>
+<td>small n</td>
+</tr>
+<tr>
+<td>Hindi speech rate</td>
+<td>studied in L2 Hindi (Assamese L1) spontaneous vs read speech; values not in the abstract</td>
+<td>Chakraborty et al. 2024 [R28]</td>
+<td><strong>No native-Hindi conversational norm found</strong></td>
+</tr>
+<tr>
+<td>Pain</td>
+<td>F0 and loudness rise, mainly on /u/ and schwa (groan-like)</td>
+<td>Lautenbacher et al. 2017, induced heat pain in healthy students [R15]</td>
+<td>Vowels, not conversation</td>
+</tr>
+<tr>
+<td>Depression</td>
+<td>slower, quieter speech; longer or more frequent pauses; less pitch variability</td>
+<td>[R16, R17]</td>
+<td></td>
+</tr>
+<tr>
+<td>Anxiety</td>
+<td>faster rate, higher pitch</td>
+<td>summary table [R17]</td>
+<td>Weaker evidence</td>
+</tr>
+</tbody>
+</table>
+<p>I found no source that gives patient-versus-doctor speech rates, or response latency specific to doctor questions. <strong>[Inference]</strong> Use the Stivers distribution as the baseline and add latency for recall and dispreference (Section 4).</p>
+<hr />
+<h2 id="3-hindihinglish-and-indian-english-specifics">3. Hindi/Hinglish and Indian-English specifics<a class="headerlink" href="#3-hindihinglish-and-indian-english-specifics" title="Permanent link">&para;</a></h2>
+<p><strong>Sourced:</strong>
+- Indian outpatient interaction is directive and question-led. Patients agree readily (72%), ask few questions, hedge often, trail on past the question, and are interrupted by doctors to redirect them. Code-switching clusters around clinical concepts, and formal medical vocabulary enters only gradually [R10]. Caveat: the real data is Telugu and the Hindi data is role-played (EkaCare).
+- <em>hã/haan</em> serves several discourse functions (agreement, backchannel, continuation, and others), and F0 contour distinguishes them [R14].
+- Hindi hesitations depend on lexical, syntactic and articulatory properties of both the preceding and the following word. Repetitions depend mainly on the upcoming word [R11]. <strong>[Inference]</strong> Repeat the word before a hard term ("woh... woh BP wali goli") and hesitate before low-frequency words.
+- Hinglish switches occur almost anywhere in the utterance. A frequent pattern is an English bare verb plus <em>karna</em> ("check karna", "vomit hona") [R29].
+- In Indian emergency departments, clinicians routinely use non-English languages, and miscommunication incidents are common [R30]. This supports making the VP's language mixing realistic rather than fixed.</p>
+<p><strong>Practitioner knowledge, not quantified by any source I found [Inference]:</strong>
+- <strong>Fillers and discourse markers:</strong> <em>matlab</em> (reformulation: "I mean"), <em>woh</em> (placeholder: "that... thing"), <em>kya bolte hain / kya kehte hain</em> (word search: "what do you call it"), <em>haan</em> (acknowledgement or continuation), <em>achha</em> (receipt), <em>toh</em> (turn-initial "so"), <em>na / hai na</em> (tag seeking agreement), <em>jaise</em> ("like"), <em>bas</em> ("that's all"), <em>thoda</em> (minimiser), and the plain vocalic filler <em>aa/ā</em> or <em>uh</em>. Indian English adds "actually", "basically", "what happened is", "like that only".
+- <strong>Deference:</strong> "doctor sahab", "sir/madam", "aap jaisa bolo". Short answers, waiting to be asked, and letting a relative answer ("inko bataiye", or the son answering for the mother). [R10] measured "sir" in ~17% of real turns. Keep it <strong>well below</strong> the synthetic rate.
+- <strong>Approximate numbers and time:</strong> "do-teen din se", "hafte bhar se", "kaafi time se", "Diwali ke baad se", "jab se garmi shuru hui", "ek-do baar", "sau ke upar tha shayad". Dates are anchored to events (festivals, harvest, a wedding) rather than calendar dates. Ranges with <em>-teen/-char</em> ("teen-char") are idiomatic.
+- <strong>Indirect symptom terms:</strong> "chakkar aana" (anything from vertigo to presyncope), "ghabrahat" (anxiety, palpitations or dyspnoea), "kamzori", "gas banna" (often chest or epigastric pain), "sir bhaari", "dil baith raha hai", "neeche ki taraf" (genital and urinary euphemism).
+- <strong>Minimising and hedging:</strong> "thoda sa", "zyada nahi", "kabhi kabhi", "pata nahi doctor sahab", "aisa lagta hai".</p>
+<hr />
+<h2 id="4-how-patients-answer">4. How patients answer<a class="headerlink" href="#4-how-patients-answer" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Adjacency:</strong> Most history-taking answers are type-conforming and short. Patients still regularly expand with narrative to pursue their own aims (worry, an explanation, legitimacy) [R9]. Heritage &amp; Robinson show patients justify the visit ("doctorability") and treat current symptoms as the point where the doctor takes over [R31, R32].</li>
+<li><strong>Answering a different question:</strong> It happens when the question touches a worry. Real Indian patients trail past the question in 59% of turns [R10].</li>
+<li><strong>Self-correction:</strong> Repairs and restarts track planning load [R5]. Typical triggers are numbers, dates, drug names and sequences of events. <strong>[Inference]</strong></li>
+<li><strong>Uncertainty:</strong> Hedged answers outnumber confident ones roughly 2:1 in real Indian data [R10]. Real patients say "I don't know" or "not sure" with a delay and a dispreferred format [R3].</li>
+<li><strong>Emotion:</strong> Pain raises pitch and loudness [R15]. Low mood slows and quietens speech [R16]. Native-audio models can adapt to the user's emotional expression ("affective dialog") on supported 2.5 models [R22].</li>
+</ul>
+<hr />
+<h2 id="5-design-recommendations">5. Design recommendations<a class="headerlink" href="#5-design-recommendations" title="Permanent link">&para;</a></h2>
+<p><strong>A. Generate the disfluency in the LLM text, from a per-turn plan.</strong> <strong>[Inference throughout, grounded in the sources cited]</strong>
+1. <strong>Per-turn "speech plan" before generation.</strong> Sample: <code>latency_ms</code>, <code>disfluency_budget</code> (0 to 3 events), <code>answer_shape</code> (minimal / minimal+expansion / narrative / off-target / don't-know), <code>certainty</code> (confident / hedged / unsure). Condition on case state: question difficulty, sensitivity, recall load, persona age, pain and mood.
+2. <strong>Distribution targets for an outpatient persona:</strong>
+   - About 40 to 50% of turns fully fluent.
+   - Overall rate about 4 to 8 disfluent events per 100 words, using [R4, R5] as the prior.
+   - Hedged ≥ confident [R10].
+   - Narrative expansion in a minority of turns, but present.
+   - Answer-only turns kept short (1 to 2 clauses).
+3. <strong>Placement rules:</strong>
+   - Put fillers turn-initially, at clause boundaries, and before a number, date, drug name, body part or embarrassing word [R7, R11].
+   - Repeat the word before a hard term ("woh... woh goli").
+   - Repair numbers ("teen... nahi, chaar din").
+   - Allow a trailing-off ending ("aur phir... pata nahi") and a restart with a new train of thought ("matlab pehle... nahi, pehle bukhar aaya tha").
+4. <strong>Latency policy, used as silence before audio:</strong>
+   - Simple yes/no or name: 150 to 400 ms.
+   - Ordinary history item: 300 to 800 ms.
+   - Recall (dates, drugs, sequences): 800 to 1500 ms, often with a filler first.
+   - Sensitive or dispreferred (alcohol, sexual history, non-adherence, "no"): 700 to 2000 ms [R2, R3].
+   - Add age and depression multipliers (slower, more pauses) [R8, R16, R26].
+5. <strong>Hard guardrails:</strong>
+   - Disfluency must never change the facts. A repair must end on the case-correct value.
+   - Never put a filler next to a negation (<em>nahi</em>, <em>na</em>, <em>mat</em>) in a way that makes the polarity ambiguous.
+   - Never use <em>na</em> as a tag immediately after a negative clause.
+   - A <code>[pause]</code> or filler must not split a number ("do... sau") unless the case value is "200".
+   - Validate the final string against the case facts after disfluency insertion, not before.
+6. <strong>Avoid caricature:</strong>
+   - No more than one stacked filler.
+   - Do not use the same marker twice in a turn.
+   - Rotate markers across turns.
+   - Keep "doctor sahab" and "sir" rare (target ≤ ~1 in 5 turns [R10]).
+   - Avoid uniform stammer; real disfluency is bursty [R5].
+   - Avoid a filler in every turn.
+   - Fully fluent turns must remain common.</p>
+<p><strong>B. Provider mapping.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Pauses</th>
+<th>Rate</th>
+<th>Pitch / loudness</th>
+<th>Emotion / style</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gemini Live native audio</strong></td>
+<td>No documented pause tag or SSML. Pauses come from text punctuation and the system prompt.</td>
+<td>not documented</td>
+<td>not documented</td>
+<td>System instruction (tone, accent, language); <code>enable_affective_dialog</code> on 2.5 native audio, not on 3.1 [R21, R22]</td>
+<td>We do not control the text it speaks, so put the speech plan (latency class, hedging, fillers, language mix) in the <strong>system instruction plus per-turn context</strong>. VAD has <code>silence_duration_ms</code> and end-of-speech sensitivity [R21]; raise them so the trainee can pause too. For pre-answer latency, delay playback of the first audio chunk client-side. <strong>[Inference]</strong></td>
+</tr>
+<tr>
+<td><strong>Gemini-TTS (Cloud TTS, non-Live)</strong></td>
+<td><code>[short pause]</code> ~250 ms, <code>[medium pause]</code> ~500 ms, <code>[long pause]</code> ~1 s+</td>
+<td><code>[extremely fast]</code> tag; speed only in Studio</td>
+<td>via prompt</td>
+<td>Style prompt (main lever); <code>[sigh]</code>, <code>[uhm]</code>, <code>[laughing]</code></td>
+<td>hi-IN GA. A tag can be read aloud, so test each one [R18].</td>
+</tr>
+<tr>
+<td><strong>Chirp 3 HD (Cloud TTS)</strong></td>
+<td><code>[pause short]</code>, <code>[pause]</code>, <code>[pause long]</code> in the <code>markup</code> field only</td>
+<td><code>speaking_rate</code> 0.25 to 2.0</td>
+<td>SSML <code>&lt;prosody&gt;</code> (preview, sync only, not streaming)</td>
+<td>none</td>
+<td>hi-IN supported, pa-IN excluded from pause tags. Tags in unnatural positions are ignored [R19].</td>
+</tr>
+<tr>
+<td><strong>Sarvam bulbul:v3</strong></td>
+<td>none documented. Use punctuation ("...", ",", "—"), which the LLM front end turns into prosody [R33].</td>
+<td><code>pace</code> 0.5 to 2.0</td>
+<td><strong>not supported on v3</strong> (v2 only)</td>
+<td><code>temperature</code> 0.01 to 1.0 (higher is more expressive, with more artifacts)</td>
+<td>Code-mixed input supported; write numbers with commas [R20]. For a real silence, <strong>split the text into segments and insert silence client-side</strong> between chunks. <strong>[Inference]</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>C. Per-turn variation:</strong> Draw <code>pace</code> per clause segment rather than per turn: about 0.85 to 1.1 for a calm adult, lower for depressed or elderly personas. Keep bulbul <code>temperature</code> around 0.5 to 0.75 to avoid artifacts [R20]. Apply jitter of about ±10% within a turn and drift slowly across the session as fatigue sets in. <strong>[Inference]</strong></p>
+<hr />
+<h2 id="6-evaluation">6. Evaluation<a class="headerlink" href="#6-evaluation" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Objective statistics vs reference.</strong> For each VP session, compute:</li>
+<li>pre-answer latency distribution;</li>
+<li>within-turn silent-pause count and duration (≥200 ms);</li>
+<li>fillers and repairs per 100 words;</li>
+<li>percentage of fluent turns;</li>
+<li>percentage of hedged answers;</li>
+<li>answer length in words.</li>
+</ol>
+<p>Compare against [R1] (gaps), [R4, R5] (disfluency), [R10] (hedging, trailing, address terms) and an in-house sample of real Hindi OPD audio with consent. Flag runs that fall outside the target bands.
+2. <strong>Listener ratings.</strong> Run a blind MOS-style naturalness rating ("human vs VP" with a 5-point realism scale), rated by Indian clinicians and trainees. Compare baseline, disfluency-on and over-disfluent conditions to find the caricature threshold. Ask raters separately about fact clarity, so realism does not cost the student information.
+3. <strong>Turing-style discrimination.</strong> A small study found psychotherapy trainees could not tell trained SPs from real patients [R34]. Use the same design with VP clips against real or SP clips.
+4. <strong>Portrayal standards.</strong> The ASPE Standards of Best Practice have a domain for SP training in role portrayal: consistency, accuracy, and realistic affect [R35]. Use it for a faculty review checklist.
+5. <strong>Corpora:</strong>
+   - Switchboard (English disfluency annotation) [R36].
+   - PriMock57: 57 mock UK primary-care consultations with audio and transcripts [R37].
+   - IndicVoices: 22 languages, about 74% extempore and 17% conversational in v1; CC BY 4.0 [R38].
+   - DISCO: Hindi disfluency correction [R13].
+   - IIIT-H Indian-language disfluency annotation [R12].
+   - Hindi-English code-switching speech corpus [R39].
+   - Real Telugu OPD (PrivTel) is proprietary [R10].</p>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[R1] Stivers T, Enfield NJ, Brown P, et al. Universals and cultural variation in turn-taking in conversation. <em>PNAS</em> 2009;106(26):10587–92. doi:10.1073/pnas.0903616106. Medians/modes as reported in Liberman M, "Speaker-change offsets", Language Log: https://languagelog.ldc.upenn.edu/nll/?p=7997 ; abstract: https://forms.mpi.nl/node/50939</li>
+<li>[R2] Roberts F, Francis AL, Morgan M. The interaction of inter-turn silence with prosodic cues in listener perceptions of "trouble" in conversation. <em>Speech Communication</em> 2006;48(9):1079–93. doi:10.1016/j.specom.2006.02.001. https://mail.emcawiki.net/Roberts2006</li>
+<li>[R3] Kendrick KH, Torreira F. The timing and construction of preference: a quantitative study. <em>Discourse Processes</em> 2015;52(4):255–89. doi:10.1080/0163853X.2014.955997. https://eprints.whiterose.ac.uk/116177</li>
+<li>[R4] Li J, Tilsen S. Phonetic evidence for two types of disfluency. ICPhS 2015. https://conf.ling.cornell.edu/~tilsen/papers/Li%20&amp;%20Tilsen%20-%202015%20-%20phonetic%20evidence%20for%20two%20types%20of%20disfluency.pdf</li>
+<li>[R5] Bortfeld H, Leon SD, Bloom JE, Schober MF, Brennan SE. Disfluency rates in conversation: effects of age, relationship, topic, role, and gender. <em>Language and Speech</em> 2001;44(2):123–47. doi:10.1177/00238309010440020101. https://researchconnect.stonybrook.edu/en/publications/disfluency-rates-in-conversation-effects-of-age-relationship-topi/</li>
+<li>[R6] Clark HH, Fox Tree JE. Using uh and um in spontaneous speaking. <em>Cognition</em> 2002;84(1):73–111. doi:10.1016/S0010-0277(02)00017-3. https://gwern.net/doc/psychology/linguistics/2002-clark-2.pdf</li>
+<li>[R7] Hawkins PR. The syntactic location of hesitation pauses. <em>Language and Speech</em> 1971. https://bibbase.org/network/publication/hawkins-thesyntacticlocationofhesitationpauses-1971</li>
+<li>[R8] Langewitz W, Denz M, Keller A, et al. Spontaneous talking time at start of consultation in outpatient clinic: cohort study. <em>BMJ</em> 2002;325:682–3. https://pmc.ncbi.nlm.nih.gov/articles/PMC126654</li>
+<li>[R9] Stivers T, Heritage J. Breaking the sequential mold: answering "more than the question" during comprehensive history taking. <em>Text</em> 2001;21:151–85. doi:10.1515/text.1.21.1-2.151. https://emcawiki.net/Stivers-Heritage2001</li>
+<li>[R10] Shailya K, Jaiswal SD, Makani A, Datta S, Sitaram S, Jain M. Building a Cultural Perspective on Doctor-Patient Conversations. arXiv:2609.18390 (preprint). https://arxiv.org/html/2609.18390</li>
+<li>[R11] Sharma E, Arun I, Husain S. Predictors of disfluencies in Hindi spontaneous speech. Proc. SCiL 2026. https://aclanthology.org/2026.scil-main.7/</li>
+<li>[R12] Kochar C, Mujadia VV, Mishra P, Sharma DM. Towards Disfluency Annotated Corpora for Indian Languages. WILDRE-7, 2024. https://aclanthology.org/2024.wildre-1.1</li>
+<li>[R13] Bhat V, Jyothi P, Bhattacharyya P. DISCO: A Large Scale Human Annotated Corpus for Disfluency Correction in Indo-European Languages. arXiv:2310.16749. https://arxiv.org/abs/2310.16749</li>
+<li>[R14] Bali K. F0 cues for the discourse functions of "hã" in Hindi. Interspeech 2009. https://www.isca-archive.org/interspeech_2009/bali09_interspeech.html</li>
+<li>[R15] Lautenbacher S, et al. Phonetic characteristics of vocalizations during pain. <em>Pain Reports</em> 2017. https://pmc.ncbi.nlm.nih.gov/articles/PMC5646576/</li>
+<li>[R16] Cummins N, Scherer S, Krajewski J, Schnieder S, Epps J, Quatieri TF. A review of depression and suicide risk assessment using speech analysis. <em>Speech Communication</em> 2015;71:10–49. doi:10.1016/j.specom.2015.03.004. Severity and slower/quieter speech, and pauses in spontaneous narration, as summarised in the search results (n=585 smartphone study; Italian pause study): https://www.iris.unina.it/handle/11588/711827</li>
+<li>[R17] Marker summary table (depression: slower rate, reduced pitch variability, longer pauses; anxiety: faster rate, higher pitch). <em>BMC Med Inform Decis Mak</em> 2024. https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-024-02772-0/tables/2 ; Low DM, Bentley KH, Ghosh SS. <em>Laryngoscope Investig Otolaryngol</em> 2020;5(1):96–116. doi:10.1002/lio2.354</li>
+<li>[R18] Google Cloud. Gemini-TTS documentation. https://docs.cloud.google.com/text-to-speech/docs/gemini-tts</li>
+<li>[R19] Google Cloud. Chirp 3: HD voices (pause control, speaking_rate, SSML preview). https://docs.cloud.google.com/text-to-speech/docs/chirp3-hd</li>
+<li>[R20] Sarvam AI. Text-to-Speech convert API reference (bulbul:v3). https://docs.sarvam.ai/api-reference/text-to-speech/convert.md ; pitch not on v3: https://docs.sarvam.ai/api-reference-docs/api-guides-tutorials/text-to-speech/how-to/adjust-the-tone.md</li>
+<li>[R21] Google Cloud. Live API: Configure language and voice (hi-IN, en-IN &amp; hi-IN, VAD fields). https://docs.cloud.google.com/vertex-ai/generative-ai/docs/live-api/configure-language-voice</li>
+<li>[R22] Google Cloud. Gemini Live API overview (affective dialog, proactive audio). https://docs.cloud.google.com/vertex-ai/generative-ai/docs/live-api ; LiveKit Gemini plugin docs (<code>enable_affective_dialog</code>, not on 3.1): https://docs.livekit.io/agents/models/realtime/plugins/gemini/</li>
+<li>[R23] Pause location and length by boundary type in native English read speech (BYU ScholarsArchive thesis). https://scholarsarchive.byu.edu/etd/10304</li>
+<li>[R24] "The Trouble with 'Articulatory' Pauses" (TU Berlin), on the 0.25 s cut-off. https://depositonce.tu-berlin.de/items/87741bf1-74e9-4407-a49d-78e89013dc4f/full</li>
+<li>[R25] Marvel MK, Epstein RM, Flowers K, Beckman HB. Soliciting the patient's agenda: have we improved? <em>JAMA</em> 1999;281:283–7. <strong>[Unverified]</strong> 23 s figure; related letter: https://dc.etsu.edu/etsu-works/12652</li>
+<li>[R26] Duchin SW, Mysak ED 1987, summarised at https://auditory.org/postings/2016/329.html (secondary)</li>
+<li>[R27] Articulation and speech rates in speaking and reading of youngest-old and middle-old adults. <em>Türkiye Klinikleri J Health Sci</em> 2024. https://www.turkiyeklinikleri.com/article/en-articulation-and-speech-rates-in-speaking-and-reading-of-youngest-old-and-middle-old-adults-108903.html</li>
+<li>[R28] Chakraborty, Dihingia, Sarmah, Sinha. Rate and rhythm of Hindi L2 speech. Speech Prosody 2024. https://gauhati.ac.in/?p=20274</li>
+<li>[R29] Jain. Hinglish code-switching (COPiL vol. 17, Cambridge). https://www.copil.mmll.cam.ac.uk/files/v17_Jain.pdf</li>
+<li>[R30] Douglass KA, et al. Language diversity and challenges to communication in Indian emergency departments. <em>Int J Emerg Med</em> 2021. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8459521/</li>
+<li>[R31] Heritage J, Robinson JD. Accounting for the visit: giving reasons for seeking medical care. In: Heritage &amp; Maynard (eds), <em>Communication in Medical Care</em>, CUP 2006:48–85. doi:10.1017/CBO9780511607172.005. https://emcawiki.net/HeritageRobinson2006</li>
+<li>[R32] Robinson JD, Heritage J. The structure of patients' presenting concerns: the completion relevance of current symptoms. <em>Soc Sci Med</em> 2005;61(2):481–93. https://emcawiki.net/Robinson-Heritage2005</li>
+<li>[R33] Sarvam AI. Bulbul V3 blog (LLM-based prosody inference: emphasis, pauses, tone, pacing). https://sarvam.ai/blogs/bulbul-v3</li>
+<li>[R34] Can psychotherapy trainees distinguish standardized patients from real patients? <em>Z Klin Psychol Psychother</em>. https://econtent.hogrefe.com/doi/10.1026/1616-3443/a000594</li>
+<li>[R35] Lewis KL, et al. The Association of Standardized Patient Educators (ASPE) Standards of Best Practice. <em>Advances in Simulation</em> 2017;2:10. doi:10.1186/s41077-017-0043-4. https://link.springer.com/10.1186/s41077-017-0043-4</li>
+<li>[R36] Shriberg E. Disfluencies in Switchboard. ICSLP 1996. https://www.sri.com/publication/speech-natural-language-pubs/disfluencies-in-switchboard/</li>
+<li>[R37] Korfiatis AP, et al. PriMock57: A Dataset of Primary Care Mock Consultations. ACL 2022. https://aclanthology.org/2022.acl-short.65</li>
+<li>[R38] AI4Bharat. IndicVoices. https://aikosh.indiaai.gov.in/home/datasets/details/indicvoices.html</li>
+<li>[R39] Hindi-English Code-Switching Speech Corpus. arXiv:1810.00662. https://arxiv.org/pdf/1810.00662</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

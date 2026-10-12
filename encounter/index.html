@@ -1,0 +1,2089 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Developer documentation for controlled virtual-patient encounters">
+      
+      
+      
+      
+        <link rel="prev" href="../architecture/">
+      
+      
+        <link rel="next" href="../cases/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Encounter lifecycle - Med Abhyaas practice copilot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#encounter-lifecycle" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Med Abhyaas practice copilot" class="md-header__button md-logo" aria-label="Med Abhyaas practice copilot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Med Abhyaas practice copilot
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Encounter lifecycle
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Med Abhyaas practice copilot" class="md-nav__button md-logo" aria-label="Med Abhyaas practice copilot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Med Abhyaas practice copilot
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Encounter lifecycle
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encounter lifecycle
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-turn" class="md-nav__link">
+    <span class="md-ellipsis">
+      A turn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typed-learner-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typed learner actions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colloquial-expressions-and-transcript-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      Colloquial expressions and transcript safety
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clinical-reasoning-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clinical reasoning events
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examination-and-investigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examination and investigations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#answering-what-the-script-does-not-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      Answering what the script does not cover
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressive disclosure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#voice-and-emotion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Voice and emotion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attendants-and-interjections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attendants and interjections
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#speech-plans-timing-disfluency-and-hedging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speech plans: timing, disfluency and hedging
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Speech plans: timing, disfluency and hedging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#speech-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speech providers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Languages
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#patient-voice-vs-clinical-truth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patient voice vs clinical truth
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case authoring schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Faculty authoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence records
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Formative review
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Record governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Practice progress and debrief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Faculty dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agreement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annotation and agreement
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oncology workflows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../listening-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Listening checklist
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency suite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evaluation conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Roadmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adr/0001-formative-practice-score/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    0001 Formative practice score
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" >
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Research
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            Research
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/patient-speech/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Patient speech realism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../research/pre-speech-gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+        
+          
+          <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_22">
+            <span class="md-nav__icon md-icon"></span>
+            API reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Store and audit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/compiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case compiler
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disclosure policy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interpreter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learner-action interpreter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/prosody/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prosody
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/speech_plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Speech plans
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/attendant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Attendants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/improviser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Improviser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examination and orders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency suite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence records
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/observers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/agreement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agreement statistics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encounter operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Practice progress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+        
+          
+          <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_23">
+            <span class="md-nav__icon md-icon"></span>
+            Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keeping docs current
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/issue-tracker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Issue tracker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Domain docs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-turn" class="md-nav__link">
+    <span class="md-ellipsis">
+      A turn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typed-learner-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typed learner actions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colloquial-expressions-and-transcript-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      Colloquial expressions and transcript safety
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clinical-reasoning-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clinical reasoning events
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examination-and-investigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examination and investigations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#answering-what-the-script-does-not-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      Answering what the script does not cover
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#progressive-disclosure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressive disclosure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#voice-and-emotion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Voice and emotion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attendants-and-interjections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attendants and interjections
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#speech-plans-timing-disfluency-and-hedging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speech plans: timing, disfluency and hedging
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Speech plans: timing, disfluency and hedging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#speech-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speech providers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Languages
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#patient-voice-vs-clinical-truth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patient voice vs clinical truth
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="encounter-lifecycle">Encounter lifecycle<a class="headerlink" href="#encounter-lifecycle" title="Permanent link">&para;</a></h1>
+<h2 id="start">Start<a class="headerlink" href="#start" title="Permanent link">&para;</a></h2>
+<p><code>demo_start</code> / <code>practice_start</code> compile the chosen case and <strong>pin</strong> the compiled version (with its hash) inside the encounter. Later edits to the case file never affect a running encounter.</p>
+<p><code>Store.check_case</code> runs at start and on every turn:</p>
+<ol>
+<li>The pinned case must be <code>compiled-case-v8</code> and its hash must still match its content.</li>
+<li>Cases without an approved release run only in demo practice and only with a <code>demonstration*</code> status.</li>
+<li>When <code>FACULTY_REVIEW_GATE=enforce</code>, any case with pending review items is refused.</li>
+</ol>
+<h2 id="a-turn">A turn<a class="headerlink" href="#a-turn" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>sequenceDiagram
+  participant L as Learner
+  participant I as Interpreter
+  participant P as Disclosure policy
+  participant R as Realizer
+  participant S as Store
+  L-&gt;&gt;I: utterance (text or transcript)
+  I-&gt;&gt;P: proposed fact id (at most one)
+  P-&gt;&gt;P: fact exists, prerequisites disclosed, epoch current
+  P-&gt;&gt;R: permitted patient-voice text only
+  R--&gt;&gt;L: speech / text
+  R-&gt;&gt;S: event (sequence, epoch, fact_ids, delivery)
+  L--&gt;&gt;S: playback completed / interrupted</code></pre>
+<ul>
+<li><strong>Epochs</strong>: an interrupt increments the epoch; any in-flight result for an older epoch is discarded.</li>
+<li><strong>Idempotency</strong>: text actions carry a <code>request_id</code>; replays return the stored result, reuse with different input is refused.</li>
+<li><strong>Played vs planned</strong>: on the native path a fact counts as disclosed only after the client reports completed playback.</li>
+</ul>
+<h2 id="typed-learner-actions">Typed learner actions<a class="headerlink" href="#typed-learner-actions" title="Permanent link">&para;</a></h2>
+<p>Every learner utterance, typed or spoken on any path, is interpreted into exactly one action before the policy runs. On the Gemini Live path the voice model never sees fact ids or categories: its <code>answer_trainee</code> tool sends the learner's words, and the server interprets its own transcript (the model's copy is only a fallback).</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ask_fact</code></td>
+<td>Next level of one available fact, spoken by the patient</td>
+</tr>
+<tr>
+<td><code>exam</code>, <code>order</code></td>
+<td>Authored finding or result from the examiner channel</td>
+</tr>
+<tr>
+<td><code>differential</code>, <code>management</code>, <code>prescription</code>, <code>past_medication</code>, <code>note</code></td>
+<td>Recorded in the encounter; the patient does not hear it</td>
+</tr>
+<tr>
+<td><code>closure</code></td>
+<td>Brief patient acknowledgement</td>
+</tr>
+<tr>
+<td><code>hint_request</code></td>
+<td>Next hint rung in teaching mode; refused in assessment mode</td>
+</tr>
+<tr>
+<td><code>ask_unscripted</code></td>
+<td>Bounded plausible answer (see below)</td>
+</tr>
+<tr>
+<td><code>unclear</code></td>
+<td>Patient asks the learner to rephrase (greetings, multiple questions)</td>
+</tr>
+</tbody>
+</table>
+<p>The Gemini interpreter runs outside the database transaction; if it is unconfigured, the keyword interpreter answers. If a configured model is over budget or unavailable, the keyword interpreter may still route a question to the improviser or mark it unclear, but a fact question fails closed as <code>unclear</code> with reason <code>interpreter_unavailable</code>, so the patient asks the learner to repeat it instead of guessing a fact. The event records <code>interpreter: keyword_fallback</code>. Client-supplied actions are discarded. Idempotent replays return the stored result without re-interpreting. Every event stores the validated <code>action</code>.</p>
+<h2 id="colloquial-expressions-and-transcript-safety">Colloquial expressions and transcript safety<a class="headerlink" href="#colloquial-expressions-and-transcript-safety" title="Permanent link">&para;</a></h2>
+<p><code>app/lexicon.py</code> holds reviewed-draft entries for colloquial symptom expressions (पेट में गोला, घबराहट, चक्कर, कमज़ोरी, "I am okay", ...), each with possible meanings and clarification prompts.</p>
+<ul>
+<li>When the patient or attendant says one, the event records it under <code>lexicon_cues</code>: an opportunity to clarify, not a diagnosis. Realizers are told to keep these expressions as said, never turned into medical terms. <code>delhi_06</code> opens its pain fact with the paper's <em>पेट में गोला</em> example.</li>
+<li>When a later learner utterance takes up a cue, its action records <code>clarifies: [cue ids]</code>.</li>
+<li>Spoken input stores <code>text_original</code> beside the normalized <code>text</code> (Unicode NFC, Devanagari digits to ASCII, whitespace). On speech only, conservative checks catch likely recognition errors: adjacent yes/no, two different duration units side by side, or a near-miss drug name. These produce a clarification turn ("आपने हाँ कहा या नहीं?") instead of an action, so a misheard question earns neither credit nor penalty. Typed input is never second-guessed; an unedited recorded transcript counts as speech.</li>
+</ul>
+<h2 id="clinical-reasoning-events">Clinical reasoning events<a class="headerlink" href="#clinical-reasoning-events" title="Permanent link">&para;</a></h2>
+<p>Learners record reasoning with explicit controls (or say it and the interpreter types it): <code>differential</code> (comma-separated; every revision is kept), <code>management</code>, <code>prescription</code> (a new medicine now), <code>past_medication</code> (a statement about medicines already taken), <code>note</code> and <code>closure</code>. These are separate events, never mixed with elicited history, and the patient does not hear them. Session review shows them under <em>Clinical reasoning</em> in encounter order (<code>app/encounter/reasoning.py</code>).</p>
+<h2 id="examination-and-investigations">Examination and investigations<a class="headerlink" href="#examination-and-investigations" title="Permanent link">&para;</a></h2>
+<p><code>app/encounter/services.py</code> answers <code>exam</code> and <code>order</code> actions from authored content only, in the examiner channel (never in the patient's voice).</p>
+<ul>
+<li><strong>Examination</strong> is authored per system (<code>vitals</code>, <code>general</code>, <code>throat</code>, <code>chest</code>, <code>abdomen</code>, <code>neck</code>, ...). Requests are normalized through English and Hindi synonyms. A broad request ("examine him") follows the case's declared <code>granularity</code>: <code>ask_to_specify</code> asks which system; <code>general_survey</code> returns general findings and vitals.</li>
+<li><strong>Investigations</strong> map each authored test key to a concept with synonyms. A request naming more than one test waits for confirmation ("confirm") before any result is shown.</li>
+<li><strong>Unavailable</strong> (a recognised system or test the case does not author) and <strong>ambiguous</strong> ("some blood tests", "stool test" when two stool tests exist) get distinct replies. Nothing is invented.</li>
+<li>Every event stores <code>service: {items, status}</code>; requesting an examination never demonstrates the learner can perform it.</li>
+</ul>
+<h2 id="answering-what-the-script-does-not-cover">Answering what the script does not cover<a class="headerlink" href="#answering-what-the-script-does-not-cover" title="Permanent link">&para;</a></h2>
+<p>Learners can ask anything; the patient answers plausibly while clinical truth stays fixed (<code>app/encounter/improviser.py</code>).</p>
+<p><strong>1. Authored content is reachable.</strong> Facts carry an <code>about</code> description and optional <code>attributes</code> (for example the fever fact's <code>onset</code>, <code>max_temperature</code>, <code>antipyretic_response</code>), each with its own triggers and patient-voice levels. A specific question ("fever kitna jaata hai") gets that attribute's answer, not the next depth level. Devanagari triggers are expanded with Roman-Hinglish equivalents (bukhar, khansi, dard...). The interpreter sees each fact's <code>about</code> and attributes and can return <code>fact_id</code> + <code>attribute</code>.</p>
+<p><strong>2. Unscripted questions get bounded, plausible answers.</strong> A reasonable question no authored fact covers becomes <code>ask_unscripted</code>. The answer is one of:</p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Example</th>
+<th>Source of permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>consistent_negative</code></td>
+<td>"नहीं, ऐसा तो कुछ नहीं है।" to "कान में दर्द है?"</td>
+<td>The case's <code>permitted_negatives</code> (faculty-authored) or a reviewer's <em>allow negative</em> decision</td>
+</tr>
+<tr>
+<td><code>everyday_detail</code></td>
+<td>who lives at home, work, diet, how they came</td>
+<td>Global everyday topics; off under <code>FACULTY_REVIEW_GATE=enforce</code></td>
+</tr>
+<tr>
+<td><code>unknown</code></td>
+<td>"पता नहीं, डॉक्टर साहब।"</td>
+<td>Always allowed</td>
+</tr>
+</tbody>
+</table>
+<p>The Gemini improviser sees persona, patient knowledge, what was already said, permitted negatives, everyday topics and pinned answers, never truth, differential, kernel, rubric or rules. A validator rejects numbers, medicine names, tests, reports, diagnosis words and any positive symptom, and anything outside the allowed classes; rejection falls back to the deterministic answer (a permitted negative or "don't know"). Accepted answers are <strong>pinned</strong> so the patient never contradicts itself. A topic the case lists as absent wins over a generic word shared with an authored fact.</p>
+<p>Per path: text validates before replying; Sarvam realizes the approved sentence and reverts to it if the realization breaks the bounds; Gemini Live is handed the approved sentence as <code>say</code> <strong>before</strong> speaking, and the spoken transcript is validated again afterwards (a mismatch is flagged as <code>improvisation_warnings</code> and not pinned). Gemini Live cannot be forced to speak verbatim, which is why the second check stays.</p>
+<p><strong>3. Scoring stays honest.</strong> Improvised answers never create evidence opportunities, kernel credit or critical-rule matches; review labels them and counts them only as coverage. Reviewers see every improvised claim (<em>Improvised answers</em> panel) and can <strong>promote</strong> it into a new draft case version, <strong>allow</strong> it as a permitted negative, or <strong>forbid</strong> it (the patient then says it does not know).</p>
+<h2 id="progressive-disclosure">Progressive disclosure<a class="headerlink" href="#progressive-disclosure" title="Permanent link">&para;</a></h2>
+<p>Facts have 1–3 levels: <code>gist</code> → <code>characterized</code> → <code>precise</code> (a 2-level fact is <code>gist</code> → <code>precise</code>). Each delivery of a fact gives the next unheard level, so one question never jumps from a vague answer to precise numbers; asking again after the deepest level repeats it.</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Depth advances when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Text</td>
+<td>the reply is returned</td>
+</tr>
+<tr>
+<td>Sarvam cascade</td>
+<td>the reply is committed</td>
+</tr>
+<tr>
+<td>Gemini Live</td>
+<td>the client reports completed playback (an interrupted gist is offered again)</td>
+</tr>
+</tbody>
+</table>
+<p>Every patient event records <code>disclosures: [{id, level, index}]</code> so evidence can credit characterization separately from noticing.</p>
+<h2 id="voice-and-emotion">Voice and emotion<a class="headerlink" href="#voice-and-emotion" title="Permanent link">&para;</a></h2>
+<p>Each case declares a <code>voice</code>: gender-matched Sarvam and Gemini voices, a baseline emotion, an emotion range and a pace range. Facts may carry their own <code>affect</code> (for example embarrassment about tobacco). Every patient turn gets a deterministic, per-turn prosody from <code>app/encounter/prosody.py</code>:</p>
+<ul>
+<li><strong>Emotion</strong>: the fact's affect if authored, otherwise the baseline most of the time and another in-range emotion otherwise.</li>
+<li><strong>Pace and temperature</strong>: varied within the case's range and nudged by emotion (tired is slower, hurried faster).</li>
+<li><strong>Within-response pauses</strong>: speech text gets a few unpredictable pauses at clause breaks and occasionally a filler (<code>वो…</code>, <code>मतलब…</code>). Never next to a negation or a number; removing them restores the exact wording (tested over every level of every case).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>How emotion reaches the voice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sarvam cascade</td>
+<td>Realizer prompt gets the emotion note; TTS gets persona speaker, per-turn pace and humanized text</td>
+</tr>
+<tr>
+<td>Text + spoken reply</td>
+<td>Same speaker, pace, temperature and humanized text; record-only replies are never spoken</td>
+</tr>
+<tr>
+<td>Gemini Live</td>
+<td>Persona <code>voiceName</code> and baseline emotion at setup; each fact tool result carries a per-answer <code>delivery</code> note</td>
+</tr>
+</tbody>
+</table>
+<p>Gemini's affective-dialog flag is not used: support for the 3.8 Live model is unconfirmed and an unknown setup field would break the session. Sarvam bulbul:v3 has no pitch control, so variation comes from pace, temperature, pauses and wording.</p>
+<p>See the <a href="../listening-checklist/">listening checklist</a> for live verification.</p>
+<h2 id="attendants-and-interjections">Attendants and interjections<a class="headerlink" href="#attendants-and-interjections" title="Permanent link">&para;</a></h2>
+<p>A case may include an <code>attendant</code> (a family member or caregiver) with their own voice, emotion range and facts. Attendant facts use the same disclosure policy and levels as the patient's; every event records who spoke.</p>
+<ul>
+<li><strong>Direct questions</strong> to the attendant ("मम्मी जी, आप बताइए") are answered by the attendant; the patient stays silent.</li>
+<li><strong>Interjections</strong> are authored on attendant facts: <code>{"after_fact": &lt;patient fact&gt;, "mode": "interrupt" | "after"}</code> or <code>{"after_turn": N, "mode": ...}</code>. Each fires once, as a separate <code>attendant_interjection</code> event that names the patient event it interrupts.</li>
+<li><strong><code>interrupt</code> mode</strong> cuts the patient off: the browser stops the patient's audio and the attendant talks over the end of it. The patient's turn is reported <code>interrupted</code>, so its fact counts as unheard and is offered again later.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Attendant speech</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Text</td>
+<td>Shown inline, labelled with the relation</td>
+</tr>
+<tr>
+<td>Text + spoken reply</td>
+<td>TTS in the attendant's voice; in <code>interrupt</code> mode it cuts in at ~70% of the patient's audio</td>
+</tr>
+<tr>
+<td>Gemini Live</td>
+<td>The server synthesizes the line in the attendant's own voice (Gemini TTS, Sarvam fallback) and streams it; Gemini is told what was said as context only. Disclosure waits for confirmed playback.</td>
+</tr>
+</tbody>
+</table>
+<p>Attendant lines restate family viewpoints, logistics or details already in the authored truth; they never add clinical findings. Draft attendants exist for <code>delhi_02</code>, <code>delhi_08</code>, <code>onco_04</code> and <code>onco_10</code>, all pending review.</p>
+<h2 id="speech-plans-timing-disfluency-and-hedging">Speech plans: timing, disfluency and hedging<a class="headerlink" href="#speech-plans-timing-disfluency-and-hedging" title="Permanent link">&para;</a></h2>
+<p>Every patient and attendant turn gets a deterministic speech plan (<code>app/encounter/speech_plan.py</code>), recorded on the event, based on the research in <a href="../research/patient-speech/">Patient speech realism</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>latency_class</code> / <code>latency_ms</code></td>
+<td>simple 150–400 ms; ordinary 300–800; recall (numbers, durations, drugs) 800–1500; dispreferred (denials, "don't know", sensitive topics) 700–2000; slower for age ≥65, pain, fatigue, breathlessness; faster for worry or hurry</td>
+</tr>
+<tr>
+<td><code>disfluency_budget</code></td>
+<td>0–3 events; about 45% of turns stay fully fluent</td>
+</tr>
+<tr>
+<td><code>answer_shape</code></td>
+<td>minimal, minimal + expansion, narrative, off-target, trailing, don't-know</td>
+</tr>
+<tr>
+<td><code>certainty</code></td>
+<td>confident / hedged / unsure, with hedged ≥ confident overall (real Indian patients hedge about 2:1)</td>
+</tr>
+<tr>
+<td><code>markers</code></td>
+<td>matlab, woh, kya bolte hain, toh, haan, achha, bas, thoda, hai na, jaise; rotated, never repeated in a turn; "doctor sahab" in at most 1 in 5 turns</td>
+</tr>
+</tbody>
+</table>
+<p>How it reaches the learner:</p>
+<ul>
+<li><strong>The realizer</strong> (Gemini by default, Sarvam as fallback; see <a href="#speech-providers">Speech providers</a>) writes the disfluency into the words from the plan (repeats before hard words, number repairs, restarts, trailing off, hedges). A guard then checks every number, duration and negation survives, number repairs end on the authored value, no filler sits next to a negation, and no tag <em>na</em> follows a negative; otherwise the clean permitted text is used.</li>
+<li><strong>Gemini speech</strong> renders the plan's pauses as Gemini 3.8 TTS tags: "…" becomes <code>[medium pause]</code> (<code>[long pause]</code> in a hedged or unsure turn), and in a disfluent turn a clause comma becomes <code>[short pause]</code>. No tag is placed before a negation or a number. The affect's delivery note is sent as the style prompt.</li>
+<li><strong>Sarvam speech</strong> (fallback; bulbul:v3 has no pause control) synthesizes disfluent turns per clause (up to three segments) with per-segment pace jitter and joins them with measured silences (200–450 ms, 450–900 ms after a trailing "…").</li>
+<li><strong>Gemini Live</strong> gets the plan in the per-answer delivery note; the browser holds the first audio of the turn until the planned latency has passed.</li>
+<li><strong>Text practice</strong> waits the planned latency before showing the reply.</li>
+<li>Neutral-audio and text conditions keep timing but drop disfluency.</li>
+</ul>
+<h3 id="speech-providers">Speech providers<a class="headerlink" href="#speech-providers" title="Permanent link">&para;</a></h3>
+<p>The request/response voice path (<code>app/voice.py</code>) handles text-mode replies, recorded turns, openings, attendant lines and patient or attendant audio. It runs on Gemini by default (<code>app/gemini_speech.py</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Gemini (default)</th>
+<th>Sarvam (fallback)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Realizer, opening and attendant translation</td>
+<td><code>gemini-3.8-flash</code>, low thinking, since 3.8 Flash rejects minimal, same prompts</td>
+<td><code>sarvam-105b</code></td>
+</tr>
+<tr>
+<td>Recorded-turn transcription</td>
+<td><code>gemini-3.8-flash</code> with inline WAV, verbatim, code-mixed kept as heard</td>
+<td><code>saaras:v3</code> codemix</td>
+</tr>
+<tr>
+<td>Patient and attendant audio</td>
+<td>Gemini 3.8 TTS in the speaker's <code>gemini_voice</code> (same names as Live), pause tags, style prompt; PCM wrapped as WAV</td>
+<td><code>bulbul:v3</code>, clause segments joined with silences</td>
+</tr>
+</tbody>
+</table>
+<p><code>VOICE_PROVIDER</code> picks the provider (default <code>gemini</code> when a Gemini key is set). A failed Gemini call is retried once on Sarvam unless <code>SARVAM_FALLBACK=off</code>. Each Gemini call is reserved against the same call caps. Each event records the realizer <code>model</code> that actually answered, and transcription and speech responses carry <code>provider</code>. Continuous voice uses Gemini Live; the Sarvam realtime socket (<code>/api/realtime</code>) is unchanged. The pre-speech gate stays Clef (<a href="../gating/">Pre-speech gating</a>).</p>
+<p>Session statistics (latency, disfluencies per 100 words, fluent and hedged shares, answer length, honorific share) appear in the evaluation report with target bands; the comparison harness reports them per system.</p>
+<h2 id="languages">Languages<a class="headerlink" href="#languages" title="Permanent link">&para;</a></h2>
+<p>Case content is authored once, in Hindi. <code>app/languages.py</code> holds a profile per dropdown language: Sarvam and Gemini codes (Odia is <code>od-IN</code> for Sarvam, <code>or-IN</code> for Gemini), script, a colloquial-register rule and review status.</p>
+<ul>
+<li><strong>Sarvam realizer and Gemini Live</strong> are told the source is Hindi and must be spoken in the selected language with every number, duration, negation and level of certainty kept, using that language's spoken register.</li>
+<li><strong>Opening</strong>: Gemini speaks its meaning in the selected language; text practice fetches a realized opening once per encounter (<code>/api/opening</code>, cached).</li>
+<li><strong>Wrong-language replies</strong> (mostly outside the selected script) are flagged on the event as <code>output_language_warnings</code> so they are not used for assessment.</li>
+<li>The dropdown labels every language except Hindi as <em>native review pending</em>. A language code never validates a regional variety.</li>
+</ul>
+<p><code>python3 -m app.tests.language_smoke</code> runs a live opening and fact reply per language on the Sarvam path (needs <code>SARVAM_API_KEY</code>).</p>
+<h2 id="patient-voice-vs-clinical-truth">Patient voice vs clinical truth<a class="headerlink" href="#patient-voice-vs-clinical-truth" title="Permanent link">&para;</a></h2>
+<p>Each fact carries two texts:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Audience</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>levels</code> (from <code>patient_voice["hi-IN"]</code>)</td>
+<td>Patient realizer, one level per delivery</td>
+<td><em>(illustrative)</em> बुखार 100 तक गया था, थर्मामीटर से नापा था।</td>
+</tr>
+<tr>
+<td><code>clinical</code> (from <code>content</code>)</td>
+<td>Assessor only</td>
+<td><em>(illustrative)</em> Measured temperature 37.8 °C.</td>
+</tr>
+</tbody>
+</table>
+<p>Tests fail if patient speech contains clinical units (°C, mg/dL, decimal temperatures) or note shorthand.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

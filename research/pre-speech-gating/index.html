@@ -1,0 +1,2059 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Developer documentation for controlled virtual-patient encounters">
+      
+      
+      
+      
+        <link rel="prev" href="../patient-speech/">
+      
+      
+        <link rel="next" href="../../reference/core/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Pre-speech gating models - Med Abhyaas practice copilot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gating-improvised-virtual-patient-answers-before-they-are-spoken" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Med Abhyaas practice copilot" class="md-header__button md-logo" aria-label="Med Abhyaas practice copilot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Med Abhyaas practice copilot
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Pre-speech gating models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Med Abhyaas practice copilot" class="md-nav__button md-logo" aria-label="Med Abhyaas practice copilot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Med Abhyaas practice copilot
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../encounter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encounter lifecycle
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case authoring schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../authoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Faculty authoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence records
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Formative review
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Record governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Practice progress and debrief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Faculty dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agreement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annotation and agreement
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oncology workflows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../listening-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Listening checklist
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency suite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evaluation conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Roadmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0001-formative-practice-score/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    0001 Formative practice score
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Research
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            Research
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patient-speech/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Patient speech realism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating models
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating models
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-jev-and-clef-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. What Jev and Clef are
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. What Jev and Clef are">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typesafe-jev" class="md-nav__link">
+    <span class="md-ellipsis">
+      TypeSafe Jev
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloudflare-clef-and-clef-flash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloudflare Clef and Clef-flash
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-comparable-low-latency-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Comparable low-latency options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-architecture-options-for-the-gemini-live-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Architecture options for the Gemini Live path
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Architecture options for the Gemini Live path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-a-violation-check-must-decide-all-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      What a violation check must decide (all options)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-pre-generate-validate-then-speak-exactly-that-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      (a) Pre-generate, validate, then speak exactly that text
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-stream-gate-live-output-and-cancel-mid-utterance" class="md-nav__link">
+    <span class="md-ellipsis">
+      (b) Stream-gate Live output and cancel mid-utterance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-classify-the-trainee-question-before-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      (c) Classify the trainee question before generation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-latency-budget-trainee-stops-speaking-first-patient-audio" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Latency budget (trainee stops speaking → first patient audio)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Recommendation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-evaluation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Evaluation plan
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+        
+          
+          <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_22">
+            <span class="md-nav__icon md-icon"></span>
+            API reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Store and audit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/compiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case compiler
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disclosure policy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/interpreter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learner-action interpreter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/prosody/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prosody
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/speech_plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Speech plans
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/attendant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Attendants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/improviser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Improviser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examination and orders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency suite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence records
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/observers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/agreement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agreement statistics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encounter operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Practice progress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+        
+          
+          <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_23">
+            <span class="md-nav__icon md-icon"></span>
+            Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keeping docs current
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/issue-tracker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Issue tracker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Domain docs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-jev-and-clef-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. What Jev and Clef are
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. What Jev and Clef are">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typesafe-jev" class="md-nav__link">
+    <span class="md-ellipsis">
+      TypeSafe Jev
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloudflare-clef-and-clef-flash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloudflare Clef and Clef-flash
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-comparable-low-latency-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Comparable low-latency options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-architecture-options-for-the-gemini-live-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Architecture options for the Gemini Live path
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Architecture options for the Gemini Live path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-a-violation-check-must-decide-all-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      What a violation check must decide (all options)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-pre-generate-validate-then-speak-exactly-that-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      (a) Pre-generate, validate, then speak exactly that text
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-stream-gate-live-output-and-cancel-mid-utterance" class="md-nav__link">
+    <span class="md-ellipsis">
+      (b) Stream-gate Live output and cancel mid-utterance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-classify-the-trainee-question-before-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      (c) Classify the trainee question before generation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-latency-budget-trainee-stops-speaking-first-patient-audio" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Latency budget (trainee stops speaking → first patient audio)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Recommendation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-evaluation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Evaluation plan
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<blockquote>
+<p>Research notes compiled 2026-10-09 for ticket #27. Labels: [S] sourced, [I] inference, [E] estimate, [NP] not published.</p>
+</blockquote>
+<h1 id="gating-improvised-virtual-patient-answers-before-they-are-spoken">Gating improvised virtual-patient answers before they are spoken<a class="headerlink" href="#gating-improvised-virtual-patient-answers-before-they-are-spoken" title="Permanent link">&para;</a></h1>
+<p>Researched 2026-10-09. Labels: <strong>[S]</strong> = sourced (ref number given), <strong>[I]</strong> = my inference, <strong>[E]</strong> = estimate to be measured, <strong>[NP]</strong> = not published or page not reachable.</p>
+<h2 id="1-what-jev-and-clef-are">1. What Jev and Clef are<a class="headerlink" href="#1-what-jev-and-clef-are" title="Permanent link">&para;</a></h2>
+<h3 id="typesafe-jev">TypeSafe Jev<a class="headerlink" href="#typesafe-jev" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>What it is.</strong> TypeSafe's first "System One Model". The post calls it "a frontier-intelligence function call": you send unstructured state plus typed questions and get back calibrated, typed decisions. It does not generate free-form text. [S1]</li>
+<li><strong>Architecture.</strong> A new architecture with a parallel sampler, trained with "Reinforcement Learning for Calibrated Decisions" (RLCD). All option probabilities come out of one parallel query. Parameter count [NP]. [S1]</li>
+<li><strong>Tasks.</strong> Classify, route, score, extract and branch. The post also lists verification uses: "scoring, judging, guardrailing", plus jailbreak detection. Up to 255 options per question. [S1]</li>
+<li><strong>API.</strong> Requests carry a <code>state</code> and <code>questions</code>. Question types are <code>choice</code> (choice + probabilities + confidence), <code>score</code>, and <code>noul</code> (a 0–1 probability). Questions are evaluated in parallel, and the docs say adding more "barely changes the response time". Python and JS SDKs exist. Endpoint, limits and rate limits are not on the public index pages [NP]. [S1, S2, S3]</li>
+<li><strong>Latency.</strong> The vendor claims 70–500 ms end to end, measured from West Coast laptops, with no p50/p95 published by TypeSafe [S1]. Cloudflare measured Jev at <strong>median 524.1 ms, p95 536.0 ms</strong> across 43 benchmarks, with no method details [S5]. A secondary source reports Vercel's CEO saying it was "up to 18x faster (p95)" in a safety-review step [S7, secondary].</li>
+<li><strong>Pricing.</strong> $0.042 per million input tokens, output free. TypeSafe says it cannot prove this pricing is not subsidised. [S1]</li>
+<li><strong>Context.</strong> 32k tokens per Cloudflare [S5]. TypeSafe does not state it [NP].</li>
+<li><strong>Languages.</strong> <strong>Not stated anywhere I could find, including Hindi</strong> [NP]. Jev is text only [S5].</li>
+<li><strong>Hosting and licence.</strong> Hosted SaaS based on the US West Coast, no named provider, no self-hosting, and no stated licence [S1]. [I] From India this adds a transpacific round trip of roughly 200–300 ms [E] on top of the inference time.</li>
+<li><strong>Maturity.</strong> Early access. The blog's displayed date is 15 Sep 2026, but its metadata says 8 Oct 2026. All benchmarks are self-published [S1]. A secondary review reports about 68% accuracy on TypeSafe's own four workflows [S7].</li>
+</ul>
+<h3 id="cloudflare-clef-and-clef-flash">Cloudflare Clef and Clef-flash<a class="headerlink" href="#cloudflare-clef-and-clef-flash" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>What they are.</strong> Open-weight decision models released 1 Oct 2026 [S5]. They take a state (text, JSON or images) and 1–64 typed questions (<code>noul</code>, <code>choice</code>, <code>score</code>), and return a probability for every allowed option. The API is Jev-compatible. [S4, S5, S6]</li>
+<li><strong>Architecture.</strong> Clef is 27B: a frozen <strong>Qwen3.8-27B</strong> backbone with its vision encoder, plus a small "joint schema head" that scores all options of all questions in one forward pass. It has no text generation. Clef-flash is 9B, built on <strong>Qwen3.5-9B</strong>. Both use rank-256 LoRA adapters. [S5, S6, S8]</li>
+<li><strong>Invocation.</strong> Inside a Worker: <code>env.AI.run("@cf/cloudflare/clef", {state, questions})</code>. Over REST: <code>POST /client/v4/accounts/{id}/ai/run/@cf/cloudflare/clef</code>. Responses contain <code>answers</code> keyed by question id, plus <code>usage</code>. [S4]</li>
+<li><strong>Latency (vendor, 43 benchmarks, method not described).</strong> Clef: median 209.3 ms, p95 238.6 ms. Clef-flash: median 38.8 ms, p95 122.4 ms. [S5, S6, S8, I] These look like model-side times. Network time from India to whichever Cloudflare GPU location serves the request is extra and unpublished.</li>
+<li><strong>Quality notes.</strong> BANKING77 macro-F1: Clef 94.20, Clef-flash 90.93, Jev 79.74. On out-of-scope detection (CLINC150+OOS), <strong>Clef-flash scores 66.77 against Clef's 97.43</strong>. [S5, I] Out-of-scope detection is close to the "new clinical fact" check we need, so Clef-flash should not be trusted for it without evaluation.</li>
+<li><strong>Pricing.</strong> Clef costs $0.24 per million input tokens and Clef-flash $0.09. Output is not billed. [S4, S9]</li>
+<li><strong>Context.</strong> 65,536 tokens on Workers AI, and long state is truncated [S4, S9]. The Hugging Face encoder defaults to 16,384 tokens [S6].</li>
+<li><strong>Rate limits.</strong> Workers AI LLM-category models get 300 requests per minute, or 20 per minute for paid models on standard billing [S10]. [I] Check which category Clef falls in before planning load.</li>
+<li><strong>Languages.</strong> <strong>Not stated on any Clef page</strong> [NP]. [I] The Qwen3 family officially covers 119 languages, including Hindi, Bengali, Marathi, Tamil and Telugu [S11]. But Clef's backbone is Qwen3.8 or 3.5, whose language lists I did not verify, and the decision head's training data is undisclosed. <strong>Hindi, Hinglish and Devanagari quality is unknown and must be measured.</strong></li>
+<li><strong>Hosting.</strong> Workers AI runs "at the edge", with no region list [S5]. I found no source confirming GPU inference inside India, and Workers AI limits pages do not mention data residency [S10, NP]. The weights are on Hugging Face under <strong>Apache-2.0</strong>, tested on a single H200 [S6, S8], so self-hosting in an Indian region is possible.</li>
+<li><strong>Maturity.</strong> About one week old. Fine-tuning is a hands-on design-partner programme, and Cloudflare writes "We're still early here" [S5].</li>
+</ul>
+<h2 id="2-comparable-low-latency-options">2. Comparable low-latency options<a class="headerlink" href="#2-comparable-low-latency-options" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Size / type</th>
+<th>Latency</th>
+<th>Hindi / Devanagari</th>
+<th>Fit for "no new clinical fact"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Current lexicon + regex</strong></td>
+<td>Python</td>
+<td>&lt;1 ms [E]</td>
+<td>Only as good as the term lists</td>
+<td>High precision on digits and named terms. Misses paraphrase such as "seene mein bhaari lagta hai".</td>
+</tr>
+<tr>
+<td><strong>Clef-flash</strong></td>
+<td>9B decision head</td>
+<td>38.8 / 122.4 ms p50/p95 [S5]</td>
+<td>Unknown [NP]</td>
+<td>Good API shape (<code>noul</code>). Weak on out-of-scope detection [S5].</td>
+</tr>
+<tr>
+<td><strong>Clef</strong></td>
+<td>27B decision head</td>
+<td>209 / 239 ms [S5]</td>
+<td>Unknown [NP]</td>
+<td>Best quality claimed. Adds about 0.2 s.</td>
+</tr>
+<tr>
+<td><strong>Jev</strong></td>
+<td>Undisclosed</td>
+<td>524 / 536 ms (Cloudflare) [S5]</td>
+<td>Unknown [NP]</td>
+<td>US-hosted, slower than Clef. Not recommended.</td>
+</tr>
+<tr>
+<td><strong>Llama Guard 4 12B</strong></td>
+<td>12B generative safety classifier</td>
+<td>Not published [NP]</td>
+<td><strong>Hindi listed</strong> [S12]</td>
+<td>Fixed 14-category harm taxonomy, with no custom categories mentioned [S12]. Wrong task: it flags harm, not clinical-fact invention.</td>
+</tr>
+<tr>
+<td><strong>Prompt Guard 2 86M / 22M</strong></td>
+<td>mDeBERTa classifier</td>
+<td>92.4 / 19.3 ms on an A100 [S13]</td>
+<td><strong>Hindi evaluated</strong> (86M only) [S13]</td>
+<td>Detects injection and jailbreaks. Useful on trainee input, not for this check.</td>
+</tr>
+<tr>
+<td><strong>ShieldGemma 2B/9B/27B</strong></td>
+<td>Yes/No probability from logits</td>
+<td>Not published [NP]</td>
+<td><strong>English only</strong> [S14]</td>
+<td>Supports custom policies, but is "highly sensitive" to policy wording [S14]. Not suitable for Hindi.</td>
+</tr>
+<tr>
+<td><strong>NeMo Guardrails</strong></td>
+<td>Orchestration framework</td>
+<td>Depends on the rail model</td>
+<td>Depends on the rail model</td>
+<td>Streaming output rails buffer <code>chunk_size</code> tokens (default 200). <code>stream_first: false</code> withholds text until it passes [S15]. A pattern, not a model.</td>
+</tr>
+<tr>
+<td><strong>MuRIL fine-tune</strong></td>
+<td>BERT-base, Apache-2.0</td>
+<td>~10–20 ms on GPU, tens of ms on CPU [E]</td>
+<td><strong>17 Indian languages plus their transliterated forms</strong>, including Hindi [S16]</td>
+<td>Best Hinglish and romanised-Hindi prior. Needs our own labelled data.</td>
+</tr>
+<tr>
+<td><strong>IndicBERT v2</strong></td>
+<td>278M, MIT</td>
+<td>Similar to MuRIL [E]</td>
+<td>23 Indic languages + English. Romanised text not stated [S17]</td>
+<td>Same role as MuRIL. Weaker on romanised Hinglish [I].</td>
+</tr>
+<tr>
+<td><strong>Gemini Flash-Lite</strong> (3.5 / 3.1) with JSON output</td>
+<td>Small generative LLM</td>
+<td>No official time to first token found [NP]. A few hundred ms [E]</td>
+<td>Gemini family supports Hindi [S18]</td>
+<td>Can <strong>generate</strong> the sentence and self-label it. It is not an independent check.</td>
+</tr>
+<tr>
+<td><strong>Groq-hosted small LLMs</strong></td>
+<td></td>
+<td>Pricing page gave no speeds or regions [NP, S19]</td>
+<td>Model-dependent</td>
+<td>Same role as Flash-Lite.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-architecture-options-for-the-gemini-live-path">3. Architecture options for the Gemini Live path<a class="headerlink" href="#3-architecture-options-for-the-gemini-live-path" title="Permanent link">&para;</a></h2>
+<p>What the Live API documents [S18, S20]:
+- Output transcription exists, but <strong>its timing relative to audio chunks is not documented</strong>.
+- On barge-in, generation "is canceled and discarded" and the client must flush queued audio.
+- <code>send_client_content</code> with <code>turn_complete=true</code> "unconditionally interrupts generation".
+- 3.8 Live defaults to async (<code>NON_BLOCKING</code>) function calls, with <code>SILENT</code>, <code>WHEN_IDLE</code> and <code>INTERRUPTED</code> scheduling. The legacy 3.1 Live model waited for the tool response before speaking.
+- <strong>There is no documented way to make Live speak verbatim text.</strong>
+- The default end-of-speech silence is about 800 ms, with 500–800 ms recommended.</p>
+<p>In contrast, <strong>Gemini 3.8 TTS "treats the <code>text</code> field strictly as a verbatim transcript"</strong>, supports Hindi and streams 24 kHz PCM [S21]. Sarvam Bulbul v3 claims under 250 ms to first audio byte [S22, vendor].</p>
+<h3 id="what-a-violation-check-must-decide-all-options">What a violation check must decide (all options)<a class="headerlink" href="#what-a-violation-check-must-decide-all-options" title="Permanent link">&para;</a></h3>
+<p>Input: the candidate sentence, the trainee's question, the case's permitted negatives, and its everyday-detail whitelist. Output: one <code>choice</code> from {permitted_negative, everyday_detail, dont_know, <strong>new_clinical_fact</strong>}, plus <code>noul</code> sub-questions for:
+- a new positive symptom or sign
+- a number (Devanagari ०–९, ASCII digits, or number words in Hindi or English, such as "do din", "teen baar", "100 ke upar")
+- a medicine or dose (brand, generic or household name, such as "Crocin", "goli", "injection")
+- a diagnosis or disease label
+- a test or result ("sugar", "report", "X-ray")</p>
+<p>It must also catch implicature: "haan, thoda sa hota hai" (yes, it happens a little) is a positive symptom. A negated permitted term must pass, as in "nahi, khoon nahi aaya" (no, there was no blood). [I] Run the lexicon first because it is deterministic and auditable, and use the classifier only for paraphrase the lexicon misses. The rule should be a <strong>block on either signal</strong>.</p>
+<h3 id="a-pre-generate-validate-then-speak-exactly-that-text">(a) Pre-generate, validate, then speak exactly that text<a class="headerlink" href="#a-pre-generate-validate-then-speak-exactly-that-text" title="Permanent link">&para;</a></h3>
+<p>Flow: router → Flash-Lite writes one short sentence from the bounds → lexicon + classifier → speak.
+- <strong>Added latency [E]:</strong> about 300–600 ms for generation, plus 40–240 ms for the classifier, compared with Live answering directly.
+- <strong>Speaking the text:</strong> route the turn to <strong>TTS</strong> (Gemini 3.8 Flash-Lite TTS or Bulbul) instead of Live. Injecting the text into Live and saying "repeat exactly" is undocumented and unverifiable [I].
+- <strong>Failure modes:</strong> the TTS voice differs from the Live voice (this needs a voice-matching test, since I have not verified that voice names are shared [I]); prosody discontinuity; Live's context needs the turn added via <code>send_client_content</code> (model role) so later turns stay coherent [S20]; the extra hop pushes past 1.5 s at the tail.
+- <strong>Strength:</strong> it is the only option where <strong>nothing unvalidated is ever audible</strong>.</p>
+<h3 id="b-stream-gate-live-output-and-cancel-mid-utterance">(b) Stream-gate Live output and cancel mid-utterance<a class="headerlink" href="#b-stream-gate-live-output-and-cancel-mid-utterance" title="Permanent link">&para;</a></h3>
+<p>Flow: buffer audio client-side by D ms → check transcript deltas → on a violation, interrupt with <code>turn_complete=true</code> and flush the buffer.
+- <strong>Added latency:</strong> D plus classifier time, applied to every Live turn. With an unknown transcript lag, D must exceed (transcript lag + about 120 ms for the Clef-flash p95). That is likely 300–800 ms [E].
+- <strong>Failure modes:</strong> transcript lags audio, so violating words leak if D is too small. Partial words in Hindi are hard to classify. A cut-off patient sounds broken, so you need a recovery line ("…maaf kijiye, mujhe yaad nahi" — sorry, I don't remember). Interruption semantics may leave the partial turn in history [S20]. This is the NeMo <code>stream_first: true</code> failure, where the client already received tokens [S15].
+- <strong>Verdict [I]:</strong> useful only as a <strong>safety net</strong> that logs and truncates, not as the primary gate.</p>
+<h3 id="c-classify-the-trainee-question-before-generation">(c) Classify the trainee question before generation<a class="headerlink" href="#c-classify-the-trainee-question-before-generation" title="Permanent link">&para;</a></h3>
+<p>Flow: transcript of the trainee's final utterance → <code>choice</code> {authored, permitted_negative, everyday, unknown/out_of_case} → authored and negative answers come from case text (no generation), everyday answers are generated and gated, unknown gets "pata nahi" (I don't know).
+- <strong>Added latency:</strong> the Clef-flash p95 of about 120 ms [S5], or about 10–30 ms for a fine-tuned MuRIL [E]. It can run <strong>in parallel</strong> with the end-of-turn silence window on the streaming input transcript [I].
+- <strong>Failure modes:</strong> a misroute to "everyday" lets generation drift, so you still need the output check; trainee ASR errors in Hinglish; questions with several parts.
+- <strong>Strength:</strong> most turns never reach free generation at all.</p>
+<h2 id="4-latency-budget-trainee-stops-speaking-first-patient-audio">4. Latency budget (trainee stops speaking → first patient audio)<a class="headerlink" href="#4-latency-budget-trainee-stops-speaking-first-patient-audio" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>(c)+(a) via TTS</th>
+<th>Live direct, post-hoc check (today)</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>End-of-turn detection</td>
+<td>500–800 ms</td>
+<td>500–800 ms</td>
+<td>[S18] recommended <code>silenceDurationMs</code></td>
+</tr>
+<tr>
+<td>Final transcript available</td>
+<td>0–150 ms [E]</td>
+<td>n/a (inside Live)</td>
+<td>not published</td>
+</tr>
+<tr>
+<td>Route (Clef-flash / MuRIL)</td>
+<td>40–120 / 10–30 ms</td>
+<td>0</td>
+<td>[S5] / [E]</td>
+</tr>
+<tr>
+<td>Answer text</td>
+<td>authored: ~0. Everyday: 300–600 ms [E]</td>
+<td>inside Live</td>
+<td>[NP] Flash-Lite TTFT</td>
+</tr>
+<tr>
+<td>Validate (lexicon + Clef-flash)</td>
+<td>40–125 ms</td>
+<td>after speaking</td>
+<td>[S5]</td>
+</tr>
+<tr>
+<td>TTS first audio</td>
+<td>~190–250 ms (Bulbul, vendor). Gemini TTS [NP]</td>
+<td>Live first audio [NP]</td>
+<td>[S22]</td>
+</tr>
+<tr>
+<td>Network India↔edge, several hops</td>
+<td>50–150 ms [E]</td>
+<td>50–150 ms [E]</td>
+<td>not published</td>
+</tr>
+<tr>
+<td><strong>Total, authored / negative turn</strong></td>
+<td><strong>~0.8–1.4 s [E]</strong></td>
+<td>~0.8–1.3 s [E]</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Total, generated everyday turn</strong></td>
+<td><strong>~1.2–2.0 s [E]</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Human conversational gaps cluster tightly around a cross-language mean [S23] (the often-quoted "~200 ms" is a secondary gloss and I could not verify it in the abstract). [I] So 1–1.5 s is already "slow but acceptable" for a hesitant patient. A filler such as "hmm…" played immediately from a cached clip can mask the everyday path.</p>
+<h2 id="5-recommendation">5. Recommendation<a class="headerlink" href="#5-recommendation" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Do (c) first.</strong> Classify the trainee question and answer authored and permitted-negative turns from case text. This removes most generation risk at the lowest latency. Use the existing lexicon plus a small router.</li>
+<li><strong>For the remaining "everyday" turns, do (a) via TTS, not Live.</strong> Generate one short sentence with Flash-Lite from a whitelist-constrained prompt, run the <strong>lexicon gate first</strong>, then a <code>noul</code>/<code>choice</code> classifier, then send it to TTS. On any doubt, fall back to a pre-recorded "pata nahi / yaad nahi" (I don't know / I don't remember).</li>
+<li><strong>Classifier choice:</strong></li>
+<li>Prototype on <strong>Clef via Workers AI</strong>. It has the right API shape, the best published out-of-scope score, about 210 ms, and an Apache licence, so you are not locked in.</li>
+<li>In parallel, fine-tune <strong>MuRIL</strong> as the long-term gate, because it is the only option with documented transliterated-Hindi coverage, runs in tens of ms, and can live in our own India region.</li>
+<li>Do <strong>not</strong> use Jev (US-only, slowest, unknown languages), ShieldGemma (English only), or Llama Guard (wrong taxonomy).</li>
+<li>Use Clef-flash only if it passes the out-of-scope evaluation.</li>
+<li><strong>Keep (b) as telemetry.</strong> Continue validating Live transcripts after the fact for any turns that still go through Live, and alert on violations. Add mid-utterance cancel only after measuring transcript lag.</li>
+</ol>
+<h2 id="6-evaluation-plan">6. Evaluation plan<a class="headerlink" href="#6-evaluation-plan" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Dataset.</strong> At least 1,500 labelled candidate answers across the existing cases, split evenly between Devanagari Hindi, romanised Hinglish and code-mixed text, plus at least 200 each in Bengali and Tamil.</li>
+<li>Labels: the 4-way choice above plus the five <code>noul</code> flags.</li>
+<li>Include adversarial negatives: negated permitted terms, implicature ("thoda sa"), number words, household drug names, and "sugar/BP" as tests.</li>
+<li>Have two clinician annotators label it, and report Cohen's κ.</li>
+<li><strong>Targets [I].</strong></li>
+<li><strong>Recall ≥ 0.99 on new_clinical_fact</strong> (safety-critical). At most 1 leak per 1,000 improvised turns in a shadow run.</li>
+<li>Precision ≥ 0.90, so the patient doesn't say "pata nahi" too often.</li>
+<li>Router accuracy ≥ 0.95 on authored versus not.</li>
+<li>Report recall per language. <strong>Any language below target falls back to deterministic "pata nahi"</strong>.</li>
+<li><strong>Latency SLOs [I].</strong> Gate p95 ≤ 150 ms, measured from an Indian region. End-of-turn → first audio: p50 ≤ 1.2 s and p95 ≤ 1.8 s for authored turns; p95 ≤ 2.0 s for generated turns. Measure each stage with the existing stage-latency instrumentation.</li>
+<li><strong>Procedure.</strong> Run an offline evaluation of lexicon alone, lexicon + Clef, lexicon + Clef-flash and lexicon + MuRIL. Then run a 2-week shadow mode logging gate decisions on real Live transcripts. Switch only after that.</li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li>S1. TypeSafe, "Introducing System One Models and Jev": https://typesafe.ai/blog/introducing-system-one-models-and-jev (date shown 15 Sep 2026; metadata 8 Oct 2026)</li>
+<li>S2. TypeSafe docs: https://docs.typesafe.ai</li>
+<li>S3. TypeSafe docs index: https://docs.typesafe.ai/llms.txt (the models page https://docs.typesafe.ai/reference/models returned 404; OpenRouter's jev-1.13 page also returned 404)</li>
+<li>S4. Cloudflare Workers AI, Clef: https://developers.cloudflare.com/workers-ai/models/clef/</li>
+<li>S5. Cloudflare blog, Clef decision models (1 Oct 2026): https://blog.cloudflare.com/clef-decision-models</li>
+<li>S6. Hugging Face, Cloudflare/clef: https://huggingface.co/Cloudflare/clef</li>
+<li>S7. Secondary review of Jev (unverified): https://andrew.ooo/answers/what-is-typesafe-jev-system-one-model-september-2026/</li>
+<li>S8. Hugging Face, Cloudflare/clef-flash: https://huggingface.co/Cloudflare/clef-flash</li>
+<li>S9. Workers AI, clef-flash: https://developers.cloudflare.com/workers-ai/models/clef-flash/</li>
+<li>S10. Workers AI limits: https://developers.cloudflare.com/workers-ai/platform/limits/</li>
+<li>S11. Qwen3 blog (29 Apr 2025), 119 languages: https://qwenlm.github.io/blog/qwen3/</li>
+<li>S12. Llama Guard 4: https://huggingface.co/meta-llama/Llama-Guard-4-12B</li>
+<li>S13. Prompt Guard 2 86M: https://huggingface.co/meta-llama/Llama-Prompt-Guard-2-86M</li>
+<li>S14. ShieldGemma: https://huggingface.co/google/shieldgemma-2b</li>
+<li>S15. NeMo Guardrails output rail streaming: https://docs.nvidia.com/nemo/guardrails/latest/configure-guardrails/yaml-schema/streaming/output-rail-streaming</li>
+<li>S16. MuRIL: https://huggingface.co/google/muril-base-cased</li>
+<li>S17. IndicBERT v2: https://huggingface.co/ai4bharat/IndicBERTv2-MLM-only</li>
+<li>S18. Gemini Live guide: https://ai.google.dev/gemini-api/docs/live-guide and models list: https://ai.google.dev/gemini-api/docs/models</li>
+<li>S19. Groq pricing (no speeds or regions visible): https://groq.com/pricing</li>
+<li>S20. Gemini Live capabilities: https://ai.google.dev/gemini-api/docs/live-api/capabilities</li>
+<li>S21. Gemini speech generation: https://ai.google.dev/gemini-api/docs/speech-generation</li>
+<li>S22. Sarvam TTS (vendor claim): https://www.sarvam.ai/try/tts-api ; https://docs.sarvam.ai/api-reference-docs/text-to-speech/api/overview</li>
+<li>S23. Stivers et al. 2009, PNAS 106(26):10587, doi:10.1073/pnas.0903616106: https://pub.uni-bielefeld.de/record/1591790</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

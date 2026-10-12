@@ -1,0 +1,2182 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Developer documentation for controlled virtual-patient encounters">
+      
+      
+      
+      
+        <link rel="prev" href="../core/">
+      
+      
+        <link rel="next" href="../policy/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Case compiler - Med Abhyaas practice copilot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#case-compiler" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Med Abhyaas practice copilot" class="md-header__button md-logo" aria-label="Med Abhyaas practice copilot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Med Abhyaas practice copilot
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Case compiler
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Med Abhyaas practice copilot" class="md-nav__button md-logo" aria-label="Med Abhyaas practice copilot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Med Abhyaas practice copilot
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../encounter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encounter lifecycle
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case authoring schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../authoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Faculty authoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence records
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Formative review
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Record governance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Practice progress and debrief
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Faculty dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agreement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Annotation and agreement
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oncology workflows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../listening-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Listening checklist
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency suite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evaluation conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Roadmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decisions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            Decisions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0001-formative-practice-score/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    0001 Formative practice score
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" >
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Research
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            Research
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research/patient-speech/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Patient speech realism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research/pre-speech-gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_22">
+            <span class="md-nav__icon md-icon"></span>
+            API reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Store and audit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Case compiler
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case compiler
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#app.encounter.compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      compiler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compiler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.SCHEMA" class="md-nav__link">
+    <span class="md-ellipsis">
+      SCHEMA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.ASSESSOR_ONLY" class="md-nav__link">
+    <span class="md-ellipsis">
+      ASSESSOR_ONLY
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.PATIENT_FACING" class="md-nav__link">
+    <span class="md-ellipsis">
+      PATIENT_FACING
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.SOURCE_LANGUAGE" class="md-nav__link">
+    <span class="md-ellipsis">
+      SOURCE_LANGUAGE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.SARVAM_SPEAKERS" class="md-nav__link">
+    <span class="md-ellipsis">
+      SARVAM_SPEAKERS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.GEMINI_VOICES" class="md-nav__link">
+    <span class="md-ellipsis">
+      GEMINI_VOICES
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.REVIEWED" class="md-nav__link">
+    <span class="md-ellipsis">
+      REVIEWED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.METADATA" class="md-nav__link">
+    <span class="md-ellipsis">
+      METADATA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.DEFAULT_TRIGGERS" class="md-nav__link">
+    <span class="md-ellipsis">
+      DEFAULT_TRIGGERS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.ROMAN" class="md-nav__link">
+    <span class="md-ellipsis">
+      ROMAN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.ATTRIBUTE_NAME" class="md-nav__link">
+    <span class="md-ellipsis">
+      ATTRIBUTE_NAME
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.case_hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      case_hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.expand_triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      expand_triggers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.compile_case" class="md-nav__link">
+    <span class="md-ellipsis">
+      compile_case
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.review_gate_enforced" class="md-nav__link">
+    <span class="md-ellipsis">
+      review_gate_enforced
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.pending_review" class="md-nav__link">
+    <span class="md-ellipsis">
+      pending_review
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disclosure policy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interpreter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learner-action interpreter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prosody/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prosody
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../speech_plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Speech plans
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../attendant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Attendants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../improviser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Improviser
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pre-speech gating
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examination and orders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency suite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evidence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence records
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agreement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agreement statistics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Encounter operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Case library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../progress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Practice progress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+        
+          
+          <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_23">
+            <span class="md-nav__icon md-icon"></span>
+            Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keeping docs current
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/issue-tracker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Issue tracker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../agents/domain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Domain docs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#app.encounter.compiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      compiler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compiler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.SCHEMA" class="md-nav__link">
+    <span class="md-ellipsis">
+      SCHEMA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.ASSESSOR_ONLY" class="md-nav__link">
+    <span class="md-ellipsis">
+      ASSESSOR_ONLY
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.PATIENT_FACING" class="md-nav__link">
+    <span class="md-ellipsis">
+      PATIENT_FACING
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.SOURCE_LANGUAGE" class="md-nav__link">
+    <span class="md-ellipsis">
+      SOURCE_LANGUAGE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.SARVAM_SPEAKERS" class="md-nav__link">
+    <span class="md-ellipsis">
+      SARVAM_SPEAKERS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.GEMINI_VOICES" class="md-nav__link">
+    <span class="md-ellipsis">
+      GEMINI_VOICES
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.REVIEWED" class="md-nav__link">
+    <span class="md-ellipsis">
+      REVIEWED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.METADATA" class="md-nav__link">
+    <span class="md-ellipsis">
+      METADATA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.DEFAULT_TRIGGERS" class="md-nav__link">
+    <span class="md-ellipsis">
+      DEFAULT_TRIGGERS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.ROMAN" class="md-nav__link">
+    <span class="md-ellipsis">
+      ROMAN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.ATTRIBUTE_NAME" class="md-nav__link">
+    <span class="md-ellipsis">
+      ATTRIBUTE_NAME
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.case_hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      case_hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.expand_triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      expand_triggers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.compile_case" class="md-nav__link">
+    <span class="md-ellipsis">
+      compile_case
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.review_gate_enforced" class="md-nav__link">
+    <span class="md-ellipsis">
+      review_gate_enforced
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#app.encounter.compiler.pending_review" class="md-nav__link">
+    <span class="md-ellipsis">
+      pending_review
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="case-compiler">Case compiler<a class="headerlink" href="#case-compiler" title="Permanent link">&para;</a></h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="app.encounter.compiler" class="doc doc-heading">
+            <code>app.encounter.compiler</code>
+
+
+<a href="#app.encounter.compiler" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Compile an authored case into an immutable, content-hashed version that an encounter pins.</p>
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.SCHEMA" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SCHEMA</span> <span class="o">=</span> <span class="s1">'compiled-case-v8'</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.SCHEMA" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.ASSESSOR_ONLY" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ASSESSOR_ONLY</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'truth'</span><span class="p">,</span> <span class="s1">'timeline'</span><span class="p">,</span> <span class="s1">'ddx'</span><span class="p">,</span> <span class="s1">'kernel'</span><span class="p">,</span> <span class="s1">'actions'</span><span class="p">,</span> <span class="s1">'unsafe'</span><span class="p">,</span> <span class="s1">'closure'</span><span class="p">,</span> <span class="s1">'assessment'</span><span class="p">,</span> <span class="s1">'review'</span><span class="p">,</span> <span class="s1">'critical_rules'</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.ASSESSOR_ONLY" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.PATIENT_FACING" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">PATIENT_FACING</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'opening'</span><span class="p">,</span> <span class="s1">'persona'</span><span class="p">,</span> <span class="s1">'patient_knowledge'</span><span class="p">,</span> <span class="s1">'speech_style'</span><span class="p">,</span> <span class="s1">'voice'</span><span class="p">,</span> <span class="s1">'permitted_negatives'</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.PATIENT_FACING" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.SOURCE_LANGUAGE" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SOURCE_LANGUAGE</span> <span class="o">=</span> <span class="s1">'hi-IN'</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.SOURCE_LANGUAGE" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.SARVAM_SPEAKERS" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">SARVAM_SPEAKERS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="s1">'shubh aditya ritu priya neha rahul pooja rohan simran kavya amit dev ishita shreya ratan varun manan sumit roopa kabir aayan ashutosh advait anand tanya tarun sunny mani gokul vijay shruti suhani mohit kavitha rehan soham rupali'</span><span class="o">.</span><span class="n">split</span><span class="p">())</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.SARVAM_SPEAKERS" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.GEMINI_VOICES" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">GEMINI_VOICES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="s1">'Zephyr Puck Charon Kore Fenrir Leda Orus Aoede Callirrhoe Autonoe Enceladus Iapetus Umbriel Algieba Despina Erinome Algenib Rasalgethi Laomedeia Achernar Alnilam Schedar Gacrux Pulcherrima Achird Zubenelgenubi Vindemiatrix Sadachbia Sadaltager Sulafat'</span><span class="o">.</span><span class="n">split</span><span class="p">())</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.GEMINI_VOICES" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.REVIEWED" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">REVIEWED</span> <span class="o">=</span> <span class="s1">'approved'</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.REVIEWED" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.METADATA" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">METADATA</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'specialty'</span><span class="p">,</span> <span class="s1">'variant'</span><span class="p">,</span> <span class="s1">'palliative'</span><span class="p">,</span> <span class="s1">'approval'</span><span class="p">,</span> <span class="s1">'status'</span><span class="p">,</span> <span class="s1">'activate_in_app'</span><span class="p">,</span> <span class="s1">'cohort'</span><span class="p">,</span> <span class="s1">'cohort_label'</span><span class="p">,</span> <span class="s1">'content_notice'</span><span class="p">,</span> <span class="s1">'learner_levels'</span><span class="p">,</span> <span class="s1">'location_claim'</span><span class="p">,</span> <span class="s1">'source_ids'</span><span class="p">,</span> <span class="s1">'review_notes'</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.METADATA" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.DEFAULT_TRIGGERS" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">DEFAULT_TRIGGERS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'duration'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'कब'</span><span class="p">,</span> <span class="s1">'दिन'</span><span class="p">,</span> <span class="s1">'कितने'</span><span class="p">,</span> <span class="s1">'since'</span><span class="p">,</span> <span class="s1">'duration'</span><span class="p">],</span> <span class="s1">'course'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'कब'</span><span class="p">,</span> <span class="s1">'दिन'</span><span class="p">,</span> <span class="s1">'fever'</span><span class="p">,</span> <span class="s1">'बुखार'</span><span class="p">],</span> <span class="s1">'fever'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'बुखार'</span><span class="p">,</span> <span class="s1">'fever'</span><span class="p">,</span> <span class="s1">'temperature'</span><span class="p">],</span> <span class="s1">'respiratory'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'खाँसी'</span><span class="p">,</span> <span class="s1">'cough'</span><span class="p">,</span> <span class="s1">'गला'</span><span class="p">],</span> <span class="s1">'severity'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'साँस'</span><span class="p">,</span> <span class="s1">'breath'</span><span class="p">,</span> <span class="s1">'बेहोश'</span><span class="p">,</span> <span class="s1">'चक्कर'</span><span class="p">,</span> <span class="s1">'severe'</span><span class="p">],</span> <span class="s1">'hydration'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'पानी'</span><span class="p">,</span> <span class="s1">'पेशाब'</span><span class="p">,</span> <span class="s1">'urine'</span><span class="p">,</span> <span class="s1">'drink'</span><span class="p">],</span> <span class="s1">'intake'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'पानी'</span><span class="p">,</span> <span class="s1">'खा'</span><span class="p">,</span> <span class="s1">'drink'</span><span class="p">],</span> <span class="s1">'intake_output'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'पानी'</span><span class="p">,</span> <span class="s1">'पेशाब'</span><span class="p">,</span> <span class="s1">'drink'</span><span class="p">],</span> <span class="s1">'medication'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'दवा'</span><span class="p">,</span> <span class="s1">'दवाई'</span><span class="p">,</span> <span class="s1">'medicine'</span><span class="p">,</span> <span class="s1">'दवाई'</span><span class="p">,</span> <span class="s1">'tablet'</span><span class="p">],</span> <span class="s1">'medications'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'दवा'</span><span class="p">,</span> <span class="s1">'inhaler'</span><span class="p">,</span> <span class="s1">'पंप'</span><span class="p">],</span> <span class="s1">'meds'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'दवा'</span><span class="p">,</span> <span class="s1">'medicine'</span><span class="p">,</span> <span class="s1">'painkiller'</span><span class="p">],</span> <span class="s1">'drugs'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'दवा'</span><span class="p">,</span> <span class="s1">'medicine'</span><span class="p">,</span> <span class="s1">'tablet'</span><span class="p">],</span> <span class="s1">'travel'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'यात्रा'</span><span class="p">,</span> <span class="s1">'बाहर'</span><span class="p">,</span> <span class="s1">'travel'</span><span class="p">,</span> <span class="s1">'गाँव'</span><span class="p">],</span> <span class="s1">'exposure'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'संपर्क'</span><span class="p">,</span> <span class="s1">'contact'</span><span class="p">,</span> <span class="s1">'travel'</span><span class="p">],</span> <span class="s1">'background'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'पहले'</span><span class="p">,</span> <span class="s1">'बीमारी'</span><span class="p">,</span> <span class="s1">'history'</span><span class="p">],</span> <span class="s1">'history'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'पहले'</span><span class="p">,</span> <span class="s1">'history'</span><span class="p">],</span> <span class="s1">'allergy'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'allerg'</span><span class="p">,</span> <span class="s1">'एलर्जी'</span><span class="p">],</span> <span class="s1">'expectation'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'चिंता'</span><span class="p">,</span> <span class="s1">'concern'</span><span class="p">,</span> <span class="s1">'उम्मीद'</span><span class="p">],</span> <span class="s1">'concern'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'चिंता'</span><span class="p">,</span> <span class="s1">'डर'</span><span class="p">,</span> <span class="s1">'concern'</span><span class="p">],</span> <span class="s1">'belief'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'लगता'</span><span class="p">,</span> <span class="s1">'क्यों'</span><span class="p">,</span> <span class="s1">'think'</span><span class="p">],</span> <span class="s1">'vomiting'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'उल्टी'</span><span class="p">,</span> <span class="s1">'vomit'</span><span class="p">],</span> <span class="s1">'pain'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'दर्द'</span><span class="p">,</span> <span class="s1">'pain'</span><span class="p">],</span> <span class="s1">'urine'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'पेशाब'</span><span class="p">,</span> <span class="s1">'urine'</span><span class="p">],</span> <span class="s1">'bleeding'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'खून'</span><span class="p">,</span> <span class="s1">'bleed'</span><span class="p">,</span> <span class="s1">'blood'</span><span class="p">],</span> <span class="s1">'previous_results'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'report'</span><span class="p">,</span> <span class="s1">'रिपोर्ट'</span><span class="p">],</span> <span class="s1">'prior_workup'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'report'</span><span class="p">,</span> <span class="s1">'रिपोर्ट'</span><span class="p">,</span> <span class="s1">'जाँच'</span><span class="p">],</span> <span class="s1">'rigors'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ठंड'</span><span class="p">,</span> <span class="s1">'कँप'</span><span class="p">,</span> <span class="s1">'chills'</span><span class="p">],</span> <span class="s1">'g6pd'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'g6pd'</span><span class="p">],</span> <span class="s1">'access'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'खर्च'</span><span class="p">,</span> <span class="s1">'मदद'</span><span class="p">,</span> <span class="s1">'cost'</span><span class="p">,</span> <span class="s1">'support'</span><span class="p">],</span> <span class="s1">'weight'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'वजन'</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">,</span> <span class="s1">'कपड़े'</span><span class="p">],</span> <span class="s1">'node'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'गाँठ'</span><span class="p">,</span> <span class="s1">'गांठ'</span><span class="p">,</span> <span class="s1">'lump'</span><span class="p">],</span> <span class="s1">'systemic'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'जोड़'</span><span class="p">,</span> <span class="s1">'rash'</span><span class="p">,</span> <span class="s1">'दाने'</span><span class="p">],</span> <span class="s1">'baseline'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'पहले'</span><span class="p">,</span> <span class="s1">'usual'</span><span class="p">,</span> <span class="s1">'baseline'</span><span class="p">],</span> <span class="s1">'sputum'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'बलगम'</span><span class="p">,</span> <span class="s1">'sputum'</span><span class="p">],</span> <span class="s1">'smoking'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'धूम्रपान'</span><span class="p">,</span> <span class="s1">'बीड़ी'</span><span class="p">,</span> <span class="s1">'smok'</span><span class="p">],</span> <span class="s1">'alternatives'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'छाती'</span><span class="p">,</span> <span class="s1">'chest'</span><span class="p">],</span> <span class="s1">'stool'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'दस्त'</span><span class="p">,</span> <span class="s1">'मल'</span><span class="p">,</span> <span class="s1">'stool'</span><span class="p">],</span> <span class="s1">'danger'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'चक्कर'</span><span class="p">,</span> <span class="s1">'खून'</span><span class="p">,</span> <span class="s1">'faint'</span><span class="p">],</span> <span class="s1">'ORS'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ors'</span><span class="p">,</span> <span class="s1">'ओआरएस'</span><span class="p">],</span> <span class="s1">'other_drugs'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'और दवा'</span><span class="p">,</span> <span class="s1">'iron'</span><span class="p">,</span> <span class="s1">'aspirin'</span><span class="p">],</span> <span class="s1">'alcohol'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'शराब'</span><span class="p">,</span> <span class="s1">'alcohol'</span><span class="p">],</span> <span class="s1">'cough'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'खाँसी'</span><span class="p">,</span> <span class="s1">'cough'</span><span class="p">],</span> <span class="s1">'mental'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'भ्रम'</span><span class="p">,</span> <span class="s1">'confus'</span><span class="p">],</span> <span class="s1">'support'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'घर'</span><span class="p">,</span> <span class="s1">'मदद'</span><span class="p">,</span> <span class="s1">'support'</span><span class="p">],</span> <span class="s1">'symptoms'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'symptom'</span><span class="p">,</span> <span class="s1">'लक्षण'</span><span class="p">,</span> <span class="s1">'दर्द'</span><span class="p">,</span> <span class="s1">'pain'</span><span class="p">,</span> <span class="s1">'खाँसी'</span><span class="p">,</span> <span class="s1">'cough'</span><span class="p">],</span> <span class="s1">'report'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'report'</span><span class="p">,</span> <span class="s1">'रिपोर्ट'</span><span class="p">,</span> <span class="s1">'scan'</span><span class="p">,</span> <span class="s1">'biopsy'</span><span class="p">,</span> <span class="s1">'endoscopy'</span><span class="p">],</span> <span class="s1">'treatment_history'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'treatment'</span><span class="p">,</span> <span class="s1">'इलाज'</span><span class="p">,</span> <span class="s1">'injection'</span><span class="p">,</span> <span class="s1">'tablet'</span><span class="p">,</span> <span class="s1">'medicine'</span><span class="p">],</span> <span class="s1">'function'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'daily'</span><span class="p">,</span> <span class="s1">'काम'</span><span class="p">,</span> <span class="s1">'walk'</span><span class="p">,</span> <span class="s1">'चल'</span><span class="p">],</span> <span class="s1">'tobacco'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'tobacco'</span><span class="p">,</span> <span class="s1">'gutka'</span><span class="p">,</span> <span class="s1">'paan'</span><span class="p">,</span> <span class="s1">'smoking'</span><span class="p">,</span> <span class="s1">'बीड़ी'</span><span class="p">],</span> <span class="s1">'family'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'family'</span><span class="p">,</span> <span class="s1">'घर'</span><span class="p">,</span> <span class="s1">'children'</span><span class="p">,</span> <span class="s1">'बच्च'</span><span class="p">],</span> <span class="s1">'nutrition'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'food'</span><span class="p">,</span> <span class="s1">'खाना'</span><span class="p">,</span> <span class="s1">'appetite'</span><span class="p">,</span> <span class="s1">'भूख'</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">,</span> <span class="s1">'वजन'</span><span class="p">]}</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.DEFAULT_TRIGGERS" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.ROMAN" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ROMAN</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'बुखार'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'bukhar'</span><span class="p">,</span> <span class="s1">'bukhaar'</span><span class="p">,</span> <span class="s1">'fever'</span><span class="p">,</span> <span class="s1">'temperature'</span><span class="p">],</span> <span class="s1">'खाँसी'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'khansi'</span><span class="p">,</span> <span class="s1">'khaansi'</span><span class="p">,</span> <span class="s1">'khasi'</span><span class="p">,</span> <span class="s1">'cough'</span><span class="p">],</span> <span class="s1">'दर्द'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'dard'</span><span class="p">,</span> <span class="s1">'pain'</span><span class="p">],</span> <span class="s1">'साँस'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'saans'</span><span class="p">,</span> <span class="s1">'sans'</span><span class="p">,</span> <span class="s1">'breath'</span><span class="p">],</span> <span class="s1">'उल्टी'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ulti'</span><span class="p">,</span> <span class="s1">'vomit'</span><span class="p">],</span> <span class="s1">'दस्त'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'dast'</span><span class="p">,</span> <span class="s1">'loose motion'</span><span class="p">,</span> <span class="s1">'diarrh'</span><span class="p">],</span> <span class="s1">'पेशाब'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'peshab'</span><span class="p">,</span> <span class="s1">'urine'</span><span class="p">],</span> <span class="s1">'पानी'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'pani'</span><span class="p">,</span> <span class="s1">'water'</span><span class="p">],</span> <span class="s1">'दवा'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'dawa'</span><span class="p">,</span> <span class="s1">'dava'</span><span class="p">,</span> <span class="s1">'medicine'</span><span class="p">],</span> <span class="s1">'दवाई'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'dawai'</span><span class="p">,</span> <span class="s1">'dawaai'</span><span class="p">,</span> <span class="s1">'medicine'</span><span class="p">],</span> <span class="s1">'गोली'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'goli'</span><span class="p">,</span> <span class="s1">'tablet'</span><span class="p">],</span> <span class="s1">'खून'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'khoon'</span><span class="p">,</span> <span class="s1">'khun'</span><span class="p">,</span> <span class="s1">'blood'</span><span class="p">],</span> <span class="s1">'चक्कर'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'chakkar'</span><span class="p">,</span> <span class="s1">'dizz'</span><span class="p">],</span> <span class="s1">'कब'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'kab'</span><span class="p">],</span> <span class="s1">'दिन'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'din'</span><span class="p">,</span> <span class="s1">'days'</span><span class="p">],</span> <span class="s1">'कितने'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'kitne'</span><span class="p">],</span> <span class="s1">'वजन'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'vajan'</span><span class="p">,</span> <span class="s1">'wajan'</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">],</span> <span class="s1">'वज़न'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'vazan'</span><span class="p">,</span> <span class="s1">'wazan'</span><span class="p">,</span> <span class="s1">'weight'</span><span class="p">],</span> <span class="s1">'गाँठ'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ganth'</span><span class="p">,</span> <span class="s1">'gaanth'</span><span class="p">,</span> <span class="s1">'lump'</span><span class="p">],</span> <span class="s1">'बलगम'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'balgam'</span><span class="p">,</span> <span class="s1">'phlegm'</span><span class="p">,</span> <span class="s1">'sputum'</span><span class="p">],</span> <span class="s1">'चिंता'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'chinta'</span><span class="p">,</span> <span class="s1">'worry'</span><span class="p">],</span> <span class="s1">'डर'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'dar'</span><span class="p">,</span> <span class="s1">'afraid'</span><span class="p">,</span> <span class="s1">'scared'</span><span class="p">],</span> <span class="s1">'घर'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ghar'</span><span class="p">,</span> <span class="s1">'home'</span><span class="p">],</span> <span class="s1">'काम'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'kaam'</span><span class="p">,</span> <span class="s1">'work'</span><span class="p">],</span> <span class="s1">'यात्रा'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'yatra'</span><span class="p">,</span> <span class="s1">'travel'</span><span class="p">],</span> <span class="s1">'पेट'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'pet'</span><span class="p">,</span> <span class="s1">'stomach'</span><span class="p">,</span> <span class="s1">'tummy'</span><span class="p">],</span> <span class="s1">'खाना'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'khana'</span><span class="p">,</span> <span class="s1">'food'</span><span class="p">],</span> <span class="s1">'भूख'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'bhookh'</span><span class="p">,</span> <span class="s1">'bhukh'</span><span class="p">,</span> <span class="s1">'appetite'</span><span class="p">],</span> <span class="s1">'नींद'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'neend'</span><span class="p">,</span> <span class="s1">'sleep'</span><span class="p">],</span> <span class="s1">'ठंड'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'thand'</span><span class="p">,</span> <span class="s1">'chills'</span><span class="p">],</span> <span class="s1">'कमजोरी'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'kamzori'</span><span class="p">,</span> <span class="s1">'weakness'</span><span class="p">],</span> <span class="s1">'कमज़ोरी'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'kamzori'</span><span class="p">,</span> <span class="s1">'weakness'</span><span class="p">],</span> <span class="s1">'पहले'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'pehle'</span><span class="p">,</span> <span class="s1">'before'</span><span class="p">],</span> <span class="s1">'एलर्जी'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'allergy'</span><span class="p">],</span> <span class="s1">'रिपोर्ट'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'report'</span><span class="p">],</span> <span class="s1">'इलाज'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ilaj'</span><span class="p">,</span> <span class="s1">'ilaaj'</span><span class="p">,</span> <span class="s1">'treatment'</span><span class="p">],</span> <span class="s1">'शुगर'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'sugar'</span><span class="p">],</span> <span class="s1">'घाव'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ghav'</span><span class="p">,</span> <span class="s1">'ghaav'</span><span class="p">,</span> <span class="s1">'wound'</span><span class="p">]}</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.ROMAN" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="app.encounter.compiler.ATTRIBUTE_NAME" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ATTRIBUTE_NAME</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">'^[a-z][a-z0-9_]{1,40}$'</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#app.encounter.compiler.ATTRIBUTE_NAME" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="app.encounter.compiler.case_hash" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">case_hash</span><span class="p">(</span><span class="n">case</span><span class="p">)</span></code>
+
+<a href="#app.encounter.compiler.case_hash" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="app.encounter.compiler.expand_triggers" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">expand_triggers</span><span class="p">(</span><span class="n">triggers</span><span class="p">)</span></code>
+
+<a href="#app.encounter.compiler.expand_triggers" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="app.encounter.compiler.compile_case" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compile_case</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span></code>
+
+<a href="#app.encounter.compiler.compile_case" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="app.encounter.compiler.review_gate_enforced" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">review_gate_enforced</span><span class="p">()</span></code>
+
+<a href="#app.encounter.compiler.review_gate_enforced" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Off until faculty reviewers are onboarded; FACULTY_REVIEW_GATE=enforce blocks unreviewed cases.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="app.encounter.compiler.pending_review" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pending_review</span><span class="p">(</span><span class="n">case</span><span class="p">)</span></code>
+
+<a href="#app.encounter.compiler.pending_review" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Review items that block curricular use once the faculty gate is enforced.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
